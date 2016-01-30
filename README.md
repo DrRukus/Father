@@ -1,2 +1,2 @@
 # Father
-Various exploratorycoding projects
+Various exploratory coding projects
