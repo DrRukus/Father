@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-DIR_WGT = ['north', 'west', 'east', 'south']
+DIRECTIONS = ['north', 'west', 'east', 'south']
 
 class Coordinate(object):
 
@@ -8,10 +8,10 @@ class Coordinate(object):
         self.iCrd = i
         self.jCrd = j
         self.value = value
-        self.edges = {'north': 100,
-                      'south':100,
-                      'east': 100,
-                      'west': 100}
+        self.edges = {'north': None,
+                      'south': None,
+                      'east':  None,
+                      'west':  None}
         self.drain = None
         self.isSink = True
         #self.IsSink()
@@ -45,29 +45,28 @@ class Coordinate(object):
         self.watershed = watershed
 
     def FindDrain(self):
-        for index in range(0, len(DIR_WGT)):
-            if not self.edges[DIR_WGT[index]]:
+        lowestDir = None
+        for index in range(0, len(DIRECTIONS)):
+            if not self.edges[DIRECTIONS[index]]:
                 continue
             else:
                 if self.isSink:
                     self.drain = 'DNE'
                     break
-                lowestNum = self.edges[DIR_WGT[index]]
-                print "Lowest Num Init: {0}".format(lowestNum)
-                lowestDir = DIR_WGT[index]
-                for subIndex in range(index, len(DIR_WGT)):
-                    print "Index: {0}; SubIndex: {1}".format(index, subIndex)
-                    if self.edges[DIR_WGT[subIndex]]:
-                        if self.edges[DIR_WGT[subIndex]] < lowestNum:
-                            lowestNum = self.edges[DIR_WGT[subIndex]]
-                            lowestDir = DIR_WGT[subIndex]
-                     #else:
-                    
-                #print lowestDir
+                lowestNum = self.edges[DIRECTIONS[index]]
+                #print "Lowest Num Init: {0}".format(lowestNum)
+                lowestDir = DIRECTIONS[index]
+                for subIndex in range(index, len(DIRECTIONS)):
+                    #print "Index: {0}; SubIndex: {1}".format(index, subIndex)
+                    if self.edges[DIRECTIONS[subIndex]]:
+                        if self.edges[DIRECTIONS[subIndex]] < lowestNum:
+                            lowestNum = self.edges[DIRECTIONS[subIndex]]
+                            lowestDir = DIRECTIONS[subIndex]
             break
+        self.drain = lowestDir
         
 
-class WaterSheds(object):
+class Map(object):
 
     def __init__(self, mapVals):
         self.mapVals = mapVals
@@ -99,9 +98,6 @@ class WaterSheds(object):
                   print row[index].GetWatershed(),
                   print " ",
             print
-
-    def GetValue(self, i, j):
-        return self.watersheds[i][j]
 
     #def GetLowestPoints(self):
     #    lowestPoints = []
@@ -163,7 +159,7 @@ mapVals = [[9, 6, 3],
 #           [4, 9, 8, 9, 8],
 #           [5, 6, 7, 8, 9]]
 
-watersheds = WaterSheds(mapVals)
+watersheds = Map(mapVals)
 
 watersheds.DisplayMap()
 watersheds.DisplayWatersheds()
