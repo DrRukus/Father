@@ -25,10 +25,9 @@ class Coordinate(object):
 
     def IsSink(self):
         for edge, data in self.edges.iteritems():
-            if data[VALUE] < self.value:
-                #print "Edge: {0}; Elevation: {1}; Value: {2}".format(edge, elevation, self.value)
+            if data[VALUE] < self.value and data[VALUE] != None:
+                #print "{0}{1} is not a sink because {2} < {3}".format(self.iCrd, self.jCrd, data[VALUE], self.value)
                 self.isSink = False
-        #print "{0}, {1} is a sink: {2}".format(self.iCrd, self.jCrd, self.isSink)
         return self.isSink
 
     def GetEdges(self):
@@ -36,7 +35,6 @@ class Coordinate(object):
 
     def SetEdgeValue(self, edge, value):
         self.edges[edge][VALUE] = value
-        #print "Edge: {0}; Value: {1}".format(edge, self.edges[edge][0])
 
     def SetEdgeCoordinates(self, edge, coordinates):
         self.edges[edge][COORDINATES] = coordinates
@@ -53,32 +51,22 @@ class Coordinate(object):
     def FindDrain(self):
         lowestDir = None
         for index in range(0, len(DIRECTIONS)):
-            #print "Starting drain search"
-            #print self.edges[DIRECTIONS[index]][VALUE]
             if self.edges[DIRECTIONS[index]][VALUE] == None:
-                #print "{0} does not exist".format(DIRECTIONS[index])
                 continue
             else:
-                #print "{0} exists".format(DIRECTIONS[index])
                 if self.isSink:
                     self.drain = 'DNE'
                     break
                 lowestNum = self.edges[DIRECTIONS[index]][VALUE]
-                #print "Lowest Num Init: {0}".format(lowestNum)
                 lowestDir = DIRECTIONS[index]
                 for subIndex in range(index, len(DIRECTIONS)):
-                    #print "Index: {0}; SubIndex: {1}".format(index, subIndex)
-                    #print self.edges[DIRECTIONS[subIndex]][VALUE]
-                    #print lowestNum
-                    if self.edges[DIRECTIONS[subIndex]][VALUE]:
+                    if self.edges[DIRECTIONS[subIndex]][VALUE] != None:
                         if self.edges[DIRECTIONS[subIndex]][VALUE] < lowestNum:
-                            #print self.edges[DIRECTIONS[subIndex]][VALUE]
-                            #print lowestNum
                             lowestNum = self.edges[DIRECTIONS[subIndex]][VALUE]
                             lowestDir = DIRECTIONS[subIndex]
+                self.drain = lowestDir
             break
-        #print "In function: {0}".format(lowestDir)
-        self.drain = lowestDir
+#        self.drain = lowestDir
         
 
 class Map(object):
@@ -174,15 +162,15 @@ class Map(object):
         
                                 
                     
-mapVals = [[9, 6, 3],
-           [5, 9, 6],
-           [3, 5, 9]]
+#mapVals = [[9, 6, 3],
+#           [5, 9, 6],
+#           [3, 5, 9]]
 
-#mapVals = [[1, 2, 3, 4, 5],
-#           [2, 9, 3, 9, 6],
-#           [3, 3, 0, 8, 7],
-#           [4, 9, 8, 9, 8],
-#           [5, 6, 7, 8, 9]]
+mapVals = [[1, 2, 3, 4, 5],
+           [2, 9, 3, 9, 6],
+           [3, 3, 0, 8, 7],
+           [4, 9, 8, 9, 8],
+           [5, 6, 7, 8, 9]]
 
 watersheds = Map(mapVals)
 
