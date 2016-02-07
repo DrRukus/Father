@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+VALUE = 0
+COORDINATES = 1
 DIRECTIONS = ['north', 'west', 'east', 'south']
 
 class Coordinate(object):
@@ -8,10 +10,10 @@ class Coordinate(object):
         self.iCrd = i
         self.jCrd = j
         self.value = value
-        self.edges = {'north': None,
-                      'south': None,
-                      'east':  None,
-                      'west':  None}
+        self.edges = {'north': [None, None],
+                      'south': [None, None],
+                      'east':  [None, None],
+                      'west':  [None, None]}
         self.drain = None
         self.isSink = True
         #self.IsSink()
@@ -22,18 +24,22 @@ class Coordinate(object):
         return self.iCrd, self.jCrd
 
     def IsSink(self):
-        for edge, elevation in self.edges.iteritems():
-            if elevation < self.value:
+        for edge, data in self.edges.iteritems():
+            if data[VALUE] < self.value:
                 #print "Edge: {0}; Elevation: {1}; Value: {2}".format(edge, elevation, self.value)
                 self.isSink = False
         #print "{0}, {1} is a sink: {2}".format(self.iCrd, self.jCrd, self.isSink)
         return self.isSink
 
-    def DisplayEdges(self):
-        print self.edges
+    def GetEdges(self):
+        return self.edges
 
-    def SetEdge(self, edge, value):
-        self.edges[edge] = value
+    def SetEdgeValue(self, edge, value):
+        self.edges[edge][VALUE] = value
+        #print "Edge: {0}; Value: {1}".format(edge, self.edges[edge][0])
+
+    def SetEdgeCoordinates(self, edge, coordinates):
+        self.edges[edge][COORDINATES] = coordinates
 
     def GetDrain(self):
         return self.drain
@@ -47,22 +53,31 @@ class Coordinate(object):
     def FindDrain(self):
         lowestDir = None
         for index in range(0, len(DIRECTIONS)):
-            if not self.edges[DIRECTIONS[index]]:
+            #print "Starting drain search"
+            #print self.edges[DIRECTIONS[index]][VALUE]
+            if self.edges[DIRECTIONS[index]][VALUE] == None:
+                #print "{0} does not exist".format(DIRECTIONS[index])
                 continue
             else:
+                #print "{0} exists".format(DIRECTIONS[index])
                 if self.isSink:
                     self.drain = 'DNE'
                     break
-                lowestNum = self.edges[DIRECTIONS[index]]
+                lowestNum = self.edges[DIRECTIONS[index]][VALUE]
                 #print "Lowest Num Init: {0}".format(lowestNum)
                 lowestDir = DIRECTIONS[index]
                 for subIndex in range(index, len(DIRECTIONS)):
                     #print "Index: {0}; SubIndex: {1}".format(index, subIndex)
-                    if self.edges[DIRECTIONS[subIndex]]:
-                        if self.edges[DIRECTIONS[subIndex]] < lowestNum:
-                            lowestNum = self.edges[DIRECTIONS[subIndex]]
+                    #print self.edges[DIRECTIONS[subIndex]][VALUE]
+                    #print lowestNum
+                    if self.edges[DIRECTIONS[subIndex]][VALUE]:
+                        if self.edges[DIRECTIONS[subIndex]][VALUE] < lowestNum:
+                            #print self.edges[DIRECTIONS[subIndex]][VALUE]
+                            #print lowestNum
+                            lowestNum = self.edges[DIRECTIONS[subIndex]][VALUE]
                             lowestDir = DIRECTIONS[subIndex]
             break
+        #print "In function: {0}".format(lowestDir)
         self.drain = lowestDir
         
 
@@ -88,13 +103,14 @@ class Map(object):
 
     def DisplayMap(self):
         for row in self.mapVals:
-            print row
+            for index in range(0, len(row)):
+                  print row[index],
+                  print " ",
+            print
 
     def DisplayWatersheds(self):
         for row in self.coordinates:
-            printRow = []
             for index in range(0, len(row)):
-                  #if row[index]:
                   print row[index].GetWatershed(),
                   print " ",
             print
@@ -104,49 +120,58 @@ class Map(object):
     #    for i in range(0, dims['height']):
     #        for j in range(1, dims['width']):
 
-    def SetEdges(self, i, j):
+    def SetEdges(self, i, j, verbose = False):
+        # Get values of east and west
         if j == 0:
-            self.coordinates[i][j].SetEdge('east', self.mapVals[i][j + 1])
+            self.coordinates[i][j].SetEdgeValue('east', self.mapVals[i][j + 1])
+            self.coordinates[i][j].SetEdgeCoordinates('east', str(i) + str(j + 1))
         elif j == self.dims['width'] - 1:
-            self.coordinates[i][j].SetEdge('west', self.mapVals[i][j - 1])
+            self.coordinates[i][j].SetEdgeValue('west', self.mapVals[i][j - 1])
+            self.coordinates[i][j].SetEdgeCoordinates('west', str(i) + str(j - 1))
         else:
-            self.coordinates[i][j].SetEdge('east', self.mapVals[i][j + 1])
-            self.coordinates[i][j].SetEdge('west', self.mapVals[i][j - 1])
+            self.coordinates[i][j].SetEdgeValue('east', self.mapVals[i][j + 1])
+            self.coordinates[i][j].SetEdgeValue('west', self.mapVals[i][j - 1])
+            self.coordinates[i][j].SetEdgeCoordinates('east', str(i) + str(j + 1))
+            self.coordinates[i][j].SetEdgeCoordinates('west', str(i) + str(j - 1))
 
         # Get values of north and south
         if i == 0:
-            self.coordinates[i][j].SetEdge('south', self.mapVals[i + 1][j])
+            self.coordinates[i][j].SetEdgeValue('south', self.mapVals[i + 1][j])
+            self.coordinates[i][j].SetEdgeCoordinates('south', str(i + 1) + str(j))
         elif i == self.dims['height'] - 1:
-            self.coordinates[i][j].SetEdge('north', self.mapVals[i - 1][j])
+            self.coordinates[i][j].SetEdgeValue('north', self.mapVals[i - 1][j])
+            self.coordinates[i][j].SetEdgeCoordinates('north', str(i - 1) + str(j))
         else:
-            self.coordinates[i][j].SetEdge('south', self.mapVals[i + 1][j])
-            self.coordinates[i][j].SetEdge('north', self.mapVals[i - 1][j])
+            self.coordinates[i][j].SetEdgeValue('south', self.mapVals[i + 1][j])
+            self.coordinates[i][j].SetEdgeValue('north', self.mapVals[i - 1][j])
+            self.coordinates[i][j].SetEdgeCoordinates('south', str(i + 1) + str(j))
+            self.coordinates[i][j].SetEdgeCoordinates('north', str(i - 1) + str(j))
+
+        edges = self.coordinates[i][j].GetEdges()
+        if verbose:
+            for edge, data in edges.iteritems():
+                print "Edge: {0}".format(edge)
+                print "Value: {0}; Coordinates: {1}".format(data[VALUE], data[COORDINATES])
 
         self.coordinates[i][j].IsSink()
 
-    def FindWatersheds(self):
-
-        directionWeight = ['north', 'west', 'east', 'south']
-
-        #coordinates = []
-
+    def SetDrains(self, verbose = False):
         for i in range(0, self.dims['height']):
             for j in range(0, self.dims['width']):
-
-                linearIndex = j + len(self.mapVals[0]) * i
-
-                # Get values of east and west
                 self.SetEdges(i, j)
+                self.coordinates[i][j].FindDrain()
+                if verbose:
+                    print self.coordinates[i][j].GetDrain()
+
+    def FindWatersheds(self):
+        self.SetDrains(verbose = True)
+
+#        for i in range(0, self.dims['height']):
+#            for j in range(0, self.dims['width']):
                 
 
-                #print "i: {0}; j: {1}".format(i, j)
-                #self.coordinates[i][j].DisplayEdges()
-
-                #drain = None
-                self.coordinates[i][j].FindDrain() 
-                #for direction in directionWeight:
-                print self.coordinates[i][j].GetDrain()    
-                #coordinates
+        
+        
                                 
                     
 mapVals = [[9, 6, 3],
