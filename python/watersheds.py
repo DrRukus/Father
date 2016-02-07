@@ -3,6 +3,7 @@
 VALUE = 0
 COORDINATES = 1
 DIRECTIONS = ['north', 'west', 'east', 'south']
+WATERSHEDS = 'abcdefghijklmnopqrstuvwxyz'
 
 class Coordinate(object):
 
@@ -16,8 +17,6 @@ class Coordinate(object):
                       'west':  [None, None]}
         self.drain = None
         self.isSink = True
-        #self.IsSink()
-        #print "Is a sink: {0}".format(self.isSink)
         self.watershed = None
 
     def GetCoordinates(self):
@@ -39,14 +38,23 @@ class Coordinate(object):
     def SetEdgeCoordinates(self, edge, coordinates):
         self.edges[edge][COORDINATES] = coordinates
 
-    def GetDrain(self):
+    def GetDrainDirection(self):
         return self.drain
+
+    def DrainI(self):
+        return None if self.drain == 'DNE' else int(self.edges[self.drain][1][0])
+
+    def DrainJ(self):
+        return None if self.drain == 'DNE' else int(self.edges[self.drain][1][1])
 
     def GetWatershed(self):
         return self.watershed
 
     def SetWatershed(self, watershed):
         self.watershed = watershed
+
+    def _SetLowestDirection(self, index):
+        return self.edges[DIRECTIONS[index]][VALUE], DIRECTIONS[index]
 
     def FindDrain(self):
         lowestDir = None
@@ -57,17 +65,14 @@ class Coordinate(object):
                 if self.isSink:
                     self.drain = 'DNE'
                     break
-                lowestNum = self.edges[DIRECTIONS[index]][VALUE]
-                lowestDir = DIRECTIONS[index]
+                lowestNum, lowestDir = self._SetLowestDirection(index)
                 for subIndex in range(index, len(DIRECTIONS)):
                     if self.edges[DIRECTIONS[subIndex]][VALUE] != None:
                         if self.edges[DIRECTIONS[subIndex]][VALUE] < lowestNum:
-                            lowestNum = self.edges[DIRECTIONS[subIndex]][VALUE]
-                            lowestDir = DIRECTIONS[subIndex]
+                            lowestNum, lowestDir = self._SetLowestDirection(subIndex)
                 self.drain = lowestDir
             break
-#        self.drain = lowestDir
-        
+
 
 class Map(object):
 
@@ -82,10 +87,10 @@ class Map(object):
             tempRow = []
             for j in range(0, self.dims['width']):
                 crd = Coordinate(i, j, mapVals[i][j])
-                if i == 0 and j == 0:
-                    crd.SetWatershed('a')
-                else:
-                    crd.SetWatershed(None)
+                #if i == 0 and j == 0:
+                #    crd.SetWatershed('a')
+                #else:
+                crd.SetWatershed(None)
                 tempRow.append(crd)
             self.coordinates.append(tempRow)
 
@@ -151,13 +156,33 @@ class Map(object):
                 if verbose:
                     print self.coordinates[i][j].GetDrain()
 
+    def SetWatershedDrainCodes(self):
+        codeIndex = 0
+        self.coordinates[0][0].SetWatershed(WATERSHEDS[codeIndex])
+        codeIndex += 1
+        for i in range(0, self.dims['height']):
+            for j in range(0, self.dims['width']):
+                if i == 0 and j == 0:
+                    continue
+                else:
+                    if self.coordinates[i][j].IsSink():
+                        self.coordinates[i][j].SetWatershed(WATERSHEDS[codeIndex])
+
     def FindWatersheds(self):
-        self.SetDrains(verbose = True)
+        self.SetDrains(verbose = False)
 
-#        for i in range(0, self.dims['height']):
-#            for j in range(0, self.dims['width']):
-                
+        self.SetWatershedDrainCodes()
 
+        for i in range(0, self.dims['height']):
+            for j in range(0, self.dims['width']):
+                drainI = self.coordinates[i][j].DrainI()
+                drainJ = self.coordinates[i][j].DrainJ()
+                if self.coordinates[i][j].GetDrainDirection() == 'DNE':
+                    continue
+                if self.coordinates[drainI][drainJ].GetWatershed():
+                    self.coordinates[i][j].SetWatershed(self.coordinates[drainI][drainJ].GetWatershed())
+
+        
         
         
                                 
