@@ -16,17 +16,20 @@ class Coordinate(object):
                       'east':  [None, None],
                       'west':  [None, None]}
         self.drain = None
-        self.isSink = True
+        self.isSink = None
         self.watershed = None
 
     def GetCoordinates(self):
         return self.iCrd, self.jCrd
 
     def IsSink(self):
+        self.isSink = True
         for edge, data in self.edges.iteritems():
             if data[VALUE] < self.value and data[VALUE] != None:
                 #print "{0}{1} is not a sink because {2} < {3}".format(self.iCrd, self.jCrd, data[VALUE], self.value)
                 self.isSink = False
+        #if self.isSink:
+        #    print "{0}{1} is a sink".format(self.iCrd, self.jCrd)
         return self.isSink
 
     def GetEdges(self):
@@ -156,22 +159,47 @@ class Map(object):
                 if verbose:
                     print self.coordinates[i][j].GetDrain()
 
-    def SetWatershedDrainCodes(self):
+    def FindSink(self, i, j):
+        if self.coordinates[i][j].IsSink():
+            #print "This is a sink!"
+            return None
+        doneFlag = False
+        maxLoops = self.dims['height'] * self.dims['width']
+        currentCell = self.coordinates[i][j]
+        for _ in range(0, maxLoops):
+            newCell = self.coordinates[currentCell.DrainI()][currentCell.DrainJ()]
+            currentCell = newCell
+            if newCell.IsSink():
+                break
+        return newCell.GetCoordinates()
+            
+
+    def SetWatershedDrainCodes(self, cornerDrain, verbose = False):
         codeIndex = 0
         self.coordinates[0][0].SetWatershed(WATERSHEDS[codeIndex])
+        if not cornerDrain:
+            sinkI, sinkJ = self.FindSink(0, 0)
+            self.coordinates[sinkI][sinkJ].SetWatershed(WATERSHEDS[codeIndex])
+            if verbose:
+                print "Watershed code for {0}, {1}: {2}".format(sinkI, sinkJ, WATERSHEDS[codeIndex])
         codeIndex += 1
         for i in range(0, self.dims['height']):
             for j in range(0, self.dims['width']):
                 if i == 0 and j == 0:
                     continue
                 else:
-                    if self.coordinates[i][j].IsSink():
+                    if self.coordinates[i][j].IsSink() and not self.coordinates[i][j].GetWatershed():
+                        if verbose:
+                            print "i = {0}; j = {1}".format(i, j)
+                            print "    Code Index = {0}; Code = {1}".format(codeIndex, WATERSHEDS[codeIndex])
                         self.coordinates[i][j].SetWatershed(WATERSHEDS[codeIndex])
+                        codeIndex += 1
+                    
 
     def FindWatersheds(self):
         self.SetDrains(verbose = False)
 
-        self.SetWatershedDrainCodes()
+        self.SetWatershedDrainCodes(self.coordinates[0][0].IsSink())
 
         for i in range(0, self.dims['height']):
             for j in range(0, self.dims['width']):
@@ -179,29 +207,34 @@ class Map(object):
                 drainJ = self.coordinates[i][j].DrainJ()
                 if self.coordinates[i][j].GetDrainDirection() == 'DNE':
                     continue
-                if self.coordinates[drainI][drainJ].GetWatershed():
-                    self.coordinates[i][j].SetWatershed(self.coordinates[drainI][drainJ].GetWatershed())
-
-        
-        
-        
+                watershed = self.coordinates[drainI][drainJ].GetWatershed()
+                if watershed:
+                    self.coordinates[i][j].SetWatershed(watershed)
                                 
-                    
-#mapVals = [[9, 6, 3],
-#           [5, 9, 6],
-#           [3, 5, 9]]
+matrix = 9
+                  
+mapVals = [[[9, 6, 3],
+            [5, 9, 6],
+            [3, 5, 9]],
+           [[1, 2, 3, 4, 5],
+            [2, 9, 3, 9, 6],
+            [3, 3, 0, 8, 7],
+            [4, 9, 8, 9, 8],
+            [5, 6, 7, 8, 9]],
+           [[7, 6, 7],
+            [7, 6, 7]],
+           [[8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+            [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8]]]
 
-mapVals = [[1, 2, 3, 4, 5],
-           [2, 9, 3, 9, 6],
-           [3, 3, 0, 8, 7],
-           [4, 9, 8, 9, 8],
-           [5, 6, 7, 8, 9]]
-
-watersheds = Map(mapVals)
+watersheds = Map(mapVals[3])
 
 watersheds.DisplayMap()
 watersheds.DisplayWatersheds()
 
 watersheds.FindWatersheds()
+
+#sinkI, sinkJ = watersheds.FindSink(0, 0)
+
+#print "i = {0}; j = {1}".format(sinkI, sinkJ)
 
 watersheds.DisplayWatersheds()
