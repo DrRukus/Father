@@ -3,7 +3,7 @@
 VALUE = 0
 COORDINATES = 1
 DIRECTIONS = ['north', 'west', 'east', 'south']
-WATERSHEDS = 'abcdefghijklmnopqrstuvwxyz'
+WATERSHEDS = 'abcdefghijklmnopqrstuvwxyz0123456789'
 
 class Coordinate(object):
 
@@ -45,10 +45,10 @@ class Coordinate(object):
         return self.drain
 
     def DrainI(self):
-        return None if self.drain == 'DNE' else int(self.edges[self.drain][1].split('.')[0])
+        return None if self.drain == 'DNE' else int(self.edges[self.drain][1].split(',')[0])
 
     def DrainJ(self):
-        return None if self.drain == 'DNE' else int(self.edges[self.drain][1].split('.')[1])
+        return None if self.drain == 'DNE' else int(self.edges[self.drain][1].split(',')[1])
 
     def GetWatershed(self):
         return self.watershed
@@ -111,30 +111,32 @@ class Map(object):
         # Get values of east and west
         if self.dims['height'] * self.dims['width'] == 1:
             return
-        if j == 0:
-            self.coordinates[i][j].SetEdgeValue('east', self.mapVals[i][j + 1])
-            self.coordinates[i][j].SetEdgeCoordinates('east', str(i) + '.' + str(j + 1))
-        elif j == self.dims['width'] - 1:
-            self.coordinates[i][j].SetEdgeValue('west', self.mapVals[i][j - 1])
-            self.coordinates[i][j].SetEdgeCoordinates('west', str(i) + '.' + str(j - 1))
-        else:
-            self.coordinates[i][j].SetEdgeValue('east', self.mapVals[i][j + 1])
-            self.coordinates[i][j].SetEdgeValue('west', self.mapVals[i][j - 1])
-            self.coordinates[i][j].SetEdgeCoordinates('east', str(i) + '.' + str(j + 1))
-            self.coordinates[i][j].SetEdgeCoordinates('west', str(i) + '.' + str(j - 1))
+        if self.dims['width'] > 1:
+            if j == 0:
+                self.coordinates[i][j].SetEdgeValue('east', self.mapVals[i][j + 1])
+                self.coordinates[i][j].SetEdgeCoordinates('east', str(i) + ',' + str(j + 1))
+            elif j == self.dims['width'] - 1:
+                self.coordinates[i][j].SetEdgeValue('west', self.mapVals[i][j - 1])
+                self.coordinates[i][j].SetEdgeCoordinates('west', str(i) + ',' + str(j - 1))
+            else:
+                self.coordinates[i][j].SetEdgeValue('east', self.mapVals[i][j + 1])
+                self.coordinates[i][j].SetEdgeValue('west', self.mapVals[i][j - 1])
+                self.coordinates[i][j].SetEdgeCoordinates('east', str(i) + ',' + str(j + 1))
+                self.coordinates[i][j].SetEdgeCoordinates('west', str(i) + ',' + str(j - 1))
 
         # Get values of north and south
-        if i == 0:
-            self.coordinates[i][j].SetEdgeValue('south', self.mapVals[i + 1][j])
-            self.coordinates[i][j].SetEdgeCoordinates('south', str(i + 1) + '.' + str(j))
-        elif i == self.dims['height'] - 1:
-            self.coordinates[i][j].SetEdgeValue('north', self.mapVals[i - 1][j])
-            self.coordinates[i][j].SetEdgeCoordinates('north', str(i - 1) + '.' + str(j))
-        else:
-            self.coordinates[i][j].SetEdgeValue('south', self.mapVals[i + 1][j])
-            self.coordinates[i][j].SetEdgeValue('north', self.mapVals[i - 1][j])
-            self.coordinates[i][j].SetEdgeCoordinates('south', str(i + 1) + '.' + str(j))
-            self.coordinates[i][j].SetEdgeCoordinates('north', str(i - 1) + '.' + str(j))
+        if self.dims['height'] > 1:
+            if i == 0:
+                self.coordinates[i][j].SetEdgeValue('south', self.mapVals[i + 1][j])
+                self.coordinates[i][j].SetEdgeCoordinates('south', str(i + 1) + ',' + str(j))
+            elif i == self.dims['height'] - 1:
+                self.coordinates[i][j].SetEdgeValue('north', self.mapVals[i - 1][j])
+                self.coordinates[i][j].SetEdgeCoordinates('north', str(i - 1) + ',' + str(j))
+            else:
+                self.coordinates[i][j].SetEdgeValue('south', self.mapVals[i + 1][j])
+                self.coordinates[i][j].SetEdgeValue('north', self.mapVals[i - 1][j])
+                self.coordinates[i][j].SetEdgeCoordinates('south', str(i + 1) + ',' + str(j))
+                self.coordinates[i][j].SetEdgeCoordinates('north', str(i - 1) + ',' + str(j))
 
         edges = self.coordinates[i][j].GetEdges()
         if verbose:
@@ -203,7 +205,7 @@ class Map(object):
             return
         self.SetDrains()
 
-        self.SetWatershedDrainCodes(self.coordinates[0][0].IsSink())
+        self.SetWatershedDrainCodes(self.coordinates[0][0].IsSink(), verbose=False)
 
         for i in range(0, self.dims['height']):
             for j in range(0, self.dims['width']):

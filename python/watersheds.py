@@ -19,6 +19,7 @@ mapVals = [[[9, 6, 3],
 """
 
 with open("inputFiles/B-large-practice.in") as inputFile:
+#with open("inputFiles/B-small-practice.in") as inputFile:
 #with open("inputFiles/map_test") as inputFile:
     inputLines = inputFile.readlines()
 
