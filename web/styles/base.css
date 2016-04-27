@@ -1,0 +1,79 @@
+#explan {
+    margin: 2em 3em;
+}
+
+input {
+    margin-left: 3em;
+	margin top: 1em;
+	width: 10em;
+}
+
+#decNum {
+    border-radius: 5px;
+}
+
+label {
+    width: 10em;
+	float: left;
+	text-align: right;
+}
+
+#binNum {
+    border: 1px solid black;
+    height: 1.5em;
+	width: 10em;
+}
+
+#bin {
+    margin-left:2.7em;
+}
+
+#convert {
+    border-radius: 5px;
+}
+
+#radios {
+    width: 500px;
+}
+
+#sel {
+    margin-top: 20px;
+    border-radius: 10px;
+}
+
+#binLabel {
+    margin-top: 2em;
+	margin-bottom: 0.25em;
+}
+
+#binNum {
+    text-align: center;
+    padding-top: auto;
+    padding-bottom: auto;
+    border-radius: 5px;
+}
+
+a {
+    width: 1000px;
+	margin-left: 40em;
+	margin-right: 5em;
+}
+
+a:link {
+    color: #0000FF;
+}
+
+/* visited link */
+a:visited {
+    color: #990033;
+}
+
+/* mouse over link */
+a:hover {
+    color: #FF0000;
+}
+
+/* selected link */
+a:active {
+    color: #0000FF;
+}
