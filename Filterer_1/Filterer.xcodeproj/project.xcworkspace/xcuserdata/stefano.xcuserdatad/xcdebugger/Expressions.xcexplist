@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "ViewController.(createScaledImage in _E316CD9A54BFEF9C650578E1DF492BE9)(UIImage) -&gt; UIImage:ViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.imagePickerController(UIImagePickerController, didFinishPickingMediaWithInfo : [String : AnyObject]) -&gt; ():ViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "MultiplyFilter.setValue(Double) -&gt; ():ImageFilterer.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.applyFilter() -&gt; ():ViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "BlurFilter.init(size : Int) -&gt; BlurFilter:ImageFilterer.swift">
+      </ContextState>
+      <ContextState
+         contextName = "ViewController.onFilterValueChanged(UISlider) -&gt; ():ViewController.swift">
+      </ContextState>
+      <ContextState
+         contextName = "MultiplyFilter.applyPixel(Pixel) -&gt; Pixel:ImageFilterer.swift">
+         <PersistentStrings>
+            <PersistentString
+               value = "out.red">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "ConstrastFilterer.setValue(Double) -&gt; ():ImageFilterer.swift">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>
