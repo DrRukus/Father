@@ -1,129 +1,60 @@
 #!/usr/bin/env python
 
-class Coordinate(object):
+import map
+"""
+matrix = 1
+                  
+mapVals = [[[9, 6, 3],
+            [5, 9, 6],
+            [3, 5, 9]],
+           [[1, 2, 3, 4, 5],
+            [2, 9, 3, 9, 6],
+            [3, 3, 0, 8, 7],
+            [4, 9, 8, 9, 8],
+            [5, 6, 7, 8, 9]],
+           [[7, 6, 7],
+            [7, 6, 7]],
+           [[8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8],
+            [8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8]]]
+"""
 
-    def __init__(self, i, j):
-        self.iCrd = i
-        self.jCrd = j
-        self.edges = {'north': None,
-                      'south': None,
-                      'east': None,
-                      'west': None}
-        self.drain = None
-        self.watershed = None
+with open("inputFiles/B-large-practice.in") as inputFile:
+#with open("inputFiles/B-small-practice.in") as inputFile:
+#with open("inputFiles/map_test") as inputFile:
+    inputLines = inputFile.readlines()
 
-    def GetCoordinates(self):
-        return self.iCrd, self.jCrd
+    numOfMaps = int(inputLines[0])
 
-    def DisplayEdges(self):
-        print self.edges
+    print numOfMaps
 
-    def SetEdge(self, edge, value):
-        self.edges[edge] = value
+    lineNum = 1
 
-    def GetWatershed(self):
-        return self.watershed
+    # Read in all map values
+    for index in range(0, numOfMaps):
+        dims = inputLines[lineNum].split(" ")
+        numRows = int(dims[0])
+        numCols = int(dims[1])
+            
+        print "Rows: {0}; Cols: {1}".format(numRows, numCols)
 
-    def SetWatershed(self, watershed):
-        self.watershed = watershed
+        mapVals = []
+        for rowNum in range(lineNum + 1, lineNum + numRows + 1):
+            mapVals.append(inputLines[rowNum].rstrip().split(" "))
 
-class WaterSheds(object):
+        map0 = map.Map(mapVals)
+        map0.DisplayMap()
+        map0.FindWatersheds()
+        map0.DisplayWatersheds()
 
-    def __init__(self, mapVals):
-        #self.watersheds = []
-        self.mapVals = mapVals
-        self.dims = {'height': len(self.mapVals),
-                     'width':  len(self.mapVals[0])}
+        lineNum += numRows + 1
 
-        self.coordinates = []
+"""
+map0 = map.Map(mapVals[matrix])
 
-        for i in range(0, self.dims['height']):
-            tempRow = []
-            for j in range(0, self.dims['width']):
-                crd = Coordinate(i, j)
-                if i == 0 and j == 0:
-                    crd.SetWatershed('a')
-                else:
-                    crd.SetWatershed(None)
-                tempRow.append(crd)
-            self.coordinates.append(tempRow)
+map0.DisplayMap()
+#map0.DisplayWatersheds()
 
-    def DisplayMap(self):
-        for row in self.mapVals:
-            print row
+map0.FindWatersheds()
 
-    def DisplayWatersheds(self):
-        for row in self.coordinates:
-            print str(row[0].GetWatershed()) + \
-                  " " + str(row[1].GetWatershed()) + \
-                  " " + str(row[2].GetWatershed())
-
-    def GetValue(self, i, j):
-        return self.watersheds[i][j]
-
-    #def GetLowestPoints(self):
-    #    lowestPoints = []
-    #    for i in range(0, dims['height']):
-    #        for j in range(1, dims['width']):
-                
-
-    def FindWatersheds(self):
-
-        directionWeight = ['north', 'west', 'east', 'south']
-
-        coordinates = []
-
-        for i in range(0, self.dims['height']):
-            for j in range(0, self.dims['width']):
-                edges = {'north': None,
-                         'south': None,
-                         'east': None,
-                         'west': None}
-
-                crd = Coordinate(i, j)    
-
-                # Get values of sides
-                if j == 0:
-                    crd.SetEdge('east', self.mapVals[i][j + 1])
-                elif j == self.dims['width'] - 1:
-                    crd.SetEdge('west', self.mapVals[i][j - 1])
-                else:
-                    crd.SetEdge('east', self.mapVals[i][j + 1])
-                    crd.SetEdge('west', self.mapVals[i][j - 1])
-
-                # Get values of top and bottom
-                if i == 0:
-                    crd.SetEdge('south', self.mapVals[i + 1][j])
-                elif i == self.dims['height'] - 1:
-                    crd.SetEdge('north', self.mapVals[i - 1][j])
-                else:
-                    crd.SetEdge('north', self.mapVals[i - 1][j])
-                    crd.SetEdge('south', self.mapVals[i + 1][j])
-
-                #print "i: {0}; j: {1}".format(i, j)
-                crd.DisplayEdges()
-
-                drain = None
-                #for direction in directionWeight:
-                    
-                #coordinates
-                                
-                    
-mapVals = [[9, 6, 3],
-           [5, 9, 6],
-           [3, 5, 9]]
-
-#mapVals = [[1, 2, 3, 4, 5],
-#           [2, 9, 3, 9, 6],
-#           [3, 3, 0, 8, 7],
-#           [4, 9, 8, 9, 8],
-#           [5, 6, 7, 8, 9]]
-
-watersheds = WaterSheds(mapVals)
-
-watersheds.DisplayMap()
-watersheds.DisplayWatersheds()
-
-watersheds.FindWatersheds()
-
-watersheds.DisplayWatersheds()
+map0.DisplayWatersheds()
+"""
