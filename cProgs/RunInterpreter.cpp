@@ -10,13 +10,11 @@ int main(int argc, char* argv[]) {
 
     while (1) {
         cout << "calc>";
-        //text = (char *)malloc(nBytes + 1);
-        //text = new char* [nBytes + 1]
         getline(cin, text);
-        cout << text << std::endl;
-        //break;
+        cout << "Expression: " << text << std::endl;
 
-        Interpreter interpreter = Interpreter(text);//, numOfTokens);
+        Interpreter interpreter = Interpreter(text);
+        cout << "Interpreter object created.  Calculating expression..." << endl;
         int result = interpreter.expr();
         cout << result << endl;
     }

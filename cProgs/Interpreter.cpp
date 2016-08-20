@@ -35,6 +35,7 @@ Interpreter::Interpreter(string text) {//, int textLen) {
     text = text;
     pos = 0;
     currentChar = text[pos];
+    cout << "Creating first token now..." << endl;
     currentToken = getNextToken();
 }
 
@@ -53,13 +54,12 @@ void Interpreter::skipWhitespace() {
 }
 
 string Interpreter::integer() {
-    string result = 0;
-    //int power = 0;
+    string result;
     while ((currentChar != 'E') && isDigit(currentChar)) {
-        //int currentDigit = currentChar - '0';
         result = result += currentChar;
         advance();
     }
+    cout << "Result: " << result << endl;
     return result;
 }
 
@@ -67,36 +67,39 @@ vector<string> Interpreter::getNextToken() {
     // Lexical analyzer - breaks input string apart into tokens
     vector<string> token(2);
     while (currentChar != 'E') {
+        cout << "Analyzing token..." << endl;
         if (currentChar == ' ') {
             skipWhitespace();
             continue;
         }
         if (isDigit(currentChar)) {
-            //return Token(INTEGER, integer());
-            token[0] = INTEGER;
+            token[0] = "INTEGER";
+            cout << "Integer = " << INTEGER << endl;
             token[1] = integer();
+            cout << "Token Type: " << token[0] << endl;
             return token;
         }
         if (currentChar == '+') {
             advance();
-            //return Token(PLUS, string(1, currentChar));
-            token[0] = PLUS;
+            token[0] = "PLUS";
             token[1] = string(1, currentChar);
             return token;
         }
         if (currentChar == '-') {
             advance();
-            //return Token(MINUS, string(1, currentChar));
-            token[0] = MINUS;
+            token[0] = "MINUS";
             token[1] = string(1, currentChar);
             return token;
         }
         //if (currentChar == 'q') {
         //    cout << "Exiting..." << endl;   
         //}
+        token[0] = "EOFT";
+        token[1] = string(1, 'E');
+        currentChar = 'E';
     }
-    token[0] = EOFT;
-    token[1] = string(1, 'E');
+    //token[0] = "EOFT";
+    //token[1] = string(1, 'E');
     return token;
 }
 
@@ -114,11 +117,12 @@ string Interpreter::term() {
 
 int Interpreter::expr() {
     // Parser/Interpreter
-    //currentToken = getNextToken();
 
     int result = stoi(term());
     while (currentToken[TYPE] == PLUS || currentToken[TYPE] == MINUS) {
         vector<string> token = currentToken;
+        cout << "Current token type: " << currentToken[TYPE] << endl;
+        cout << "Current token value: " << currentToken[VALUE] << endl;
         if (token[TYPE] == PLUS) {
             eat(PLUS);
             result = result + stoi(term());
