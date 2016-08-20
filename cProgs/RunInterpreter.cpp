@@ -11,10 +11,10 @@ int main(int argc, char* argv[]) {
     while (1) {
         cout << "calc>";
         getline(cin, text);
-        cout << "Expression: " << text << std::endl;
+        //cout << "Expression: " << text << std::endl;
 
         Interpreter interpreter = Interpreter(text);
-        cout << "Interpreter object created.  Calculating expression..." << endl;
+        //cout << "Interpreter object created.  Calculating expression..." << endl;
         int result = interpreter.expr();
         cout << result << endl;
     }
