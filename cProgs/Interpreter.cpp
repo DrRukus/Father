@@ -43,11 +43,8 @@ Interpreter::~Interpreter() {};
 
 void Interpreter::advance() {
     ++pos;
-    if (pos > (textLen - 1)) { 
-        currentChar = 'E';
-    } else {
-        currentChar = text[pos]; 
-    }
+    if (pos > (textLen - 1)) { currentChar = 'E'; }
+    else { currentChar = text[pos]; }
 }
 
 void Interpreter::skipWhitespace() {
