@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string>
 #include "Interpreter.h"
 using namespace std;
 
@@ -11,10 +12,9 @@ int main(int argc, char* argv[]) {
     while (1) {
         cout << "calc>";
         getline(cin, text);
-        //cout << "Expression: " << text << std::endl;
+        if (text.compare("q") == 0) { return 0; }
 
         Interpreter interpreter = Interpreter(text);
-        //cout << "Interpreter object created.  Calculating expression..." << endl;
         int result = interpreter.expr();
         cout << result << endl;
     }
