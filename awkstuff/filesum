@@ -1,0 +1,41 @@
+#!/bin/bash
+
+ls -l $* | awk '
+# filesum: list files and total size in bytes
+# input: ling listing produced by "ls -l"
+
+#1 output column headers
+BEGIN { printf ("\n%-15s%11s\n", "FILE", "BYTES")
+        printf ("==========================\n") }
+
+#2 test for 9 fields; files begin with "-"
+NF == 9 && /^-/ { 
+    sum += $5           # accumulate size of file
+    ++fileNum           # count number of files
+    printf ("%-15s\t%10d\n", $9, $5) # print filename mand size in bytes
+}
+
+#3 test for 9 fields; directory begins with "d"
+NF == 9 && /^d/ {
+    dirNum += 1
+    printf ("<dir>\t%s\n", $9)
+}
+
+#4 test for ls -lR line "./dir"
+$1 ~ /^\..*:$/ {
+    printf ("\t%s\n", $0)
+}
+
+#5 once all is done
+END {
+    if (dirNum  == 1)
+        dirString = "directory"
+    else
+        dirString = "directories" 
+    if (fileNum == "")
+        fileNum = 0
+    if (dirNum == "")
+        dirNum = 0
+    printf ("--------------------------\n")
+    printf ("Total: %d bytes (%d files; %d %s)\n\n", sum, fileNum, dirNum, dirString)
+}'

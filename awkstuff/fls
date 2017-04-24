@@ -1,0 +1,17 @@
+#!/bin/bash
+
+ls -l $* | awk '
+# filesum: list files and total size in bytes
+# input: ling listing produced by "ls -l"
+
+#1 output column headers
+BEGIN { print "BYTES", "\t", "FILE" }
+
+#2 test for 9 fields; files begin with "-"
+{ 
+    sum += $5           # accumulate size of file
+    ++filenum           # count number of files
+    print $5, "\t", $9  # print size and filename
+}
+
+END { print "Total: ", sum, "bytes (" filenum " files)" }'
