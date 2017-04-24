@@ -1,16 +1,9 @@
 var hexDigits = ['1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'];
 
-//document.write("Got here!")
-
 function convert() {
 
-    //var num = Number(document.dec.decNum.value);
-    //var select = document.dec.select.value;
-    //var num = 54;
-    //var select = 'binary';
     var num = Number(document.getElementById("decNum").value);
     var select = document.querySelector('input[name="select"]:checked').value;
-    //document.write(select);
     document.getElementById("binNum").innerHTML = "";
 
     var result = "";
