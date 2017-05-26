@@ -55,3 +55,37 @@ int getNumberOfCakes(char *cakes) {
     }
     return cakeCount;
 }
+
+char *getInputLine(FILE *fr) {
+    int length = 0;
+    char *inputArr = malloc(18);
+    char c;
+    while ((c = getc(fr)) != '\n') {
+        inputArr[length++] = c;
+    }
+    char *inputLine = malloc(length);
+    for (int i = 0; i < length; i++) {
+        inputLine[i] = inputArr[i];
+    }
+    return inputArr;
+}
+
+int convertToInt(char numArray[], int numberOfDigits) {
+    int multiplier = numberOfDigits;
+    int result = 0;
+    for (int i = 0; i < numberOfDigits; i++) {
+        int digit = numArray[i] - '0';
+        result += (pow(10, ((multiplier--) - 1)) * digit);
+    }
+    return result;
+}
+
+int getNumberOfChars(int num) {
+    return snprintf(NULL, 0, "%d", num);
+}
+
+char *convertToChars(int num) {
+    char *resultArr = malloc(getNumberOfChars(num));
+    sprintf(resultArr, "%d", num);
+    return resultArr;
+}
