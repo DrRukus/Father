@@ -39,10 +39,16 @@ def merge(leftList, rightList):
     else:
         return sorted([leftList[0], rightList[0]], reverse=True)
 
-print merge([6, 3, 2], [5, 4, 1])
+def mergeSort(unsortedList):
+    leftList = unsortedList([0:len(unsortedList) / 2])
+    rightList = unsortedList([len(unsortedList) / 2:len(unsortedList)])
+    if len(rightList) > 1:
+        merge(mergeSort(leftList), mergeSort(
 
-print merge([6, 4, 3], [5, 2, 1])
+#print merge([6, 3, 2], [5, 4, 1])
 
-print merge([6], [4])
+#print merge([6, 4, 3], [5, 2, 1])
 
-print merge([6, 4], [4, 3])
+#print merge([6], [4])
+
+#print merge([6, 4], [4, 3])
