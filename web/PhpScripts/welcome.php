@@ -31,26 +31,25 @@
                 echo "\t\t</tr>\n"; 
             }
 
-            $name = $_POST["name"];
+            $first = $_POST["first"];
+            $last = $_POST["last"];
             $email = $_POST["email"];
             $occupation = $_POST["occupation"];
-            $age = $_POST["age"];
             
-            echo "\t<h2>Welcome $name</h2>\n";
+            echo "\t<h2>Welcome $first $last</h2>\n";
             echo "\t<h3>Your email address is $email</h2>\n";
             echo "\t<h3>Your occupation is $occupation</h2>\n";
-            echo "\t<h3>Your age is $age</h2>\n";
 
-            $dbconn = pg_connect("host=localhost dbname=users user=dschmidt password=kgjtRif#d9")
+            $dbconn = pg_connect("host=localhost dbname=users user=users password=users")
                     or die('Could not connect: ' . pg_last_error());
 
             // Performing SQL query
             //$query = 'SELECT * FROM weather';
-            $query = "INSERT INTO users (name, email, occupation, age) " .
-                          "VALUES ('$name', '$email', '$occupation', $age);";
+            $query = "INSERT INTO user_info (first, last, email, occupation) " .
+                          "VALUES ('$first', '$last', '$email', '$occupation');";
             $result = pg_query($query) or die('Query failed: ' . pg_last_error());
             
-            $query = 'SELECT * FROM users';
+            $query = 'SELECT * FROM user_info';
             $result = pg_query($query) or die('Query failed: ' . pg_last_error());
 
             // Printing results in HTML

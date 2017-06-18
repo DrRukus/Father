@@ -15,7 +15,7 @@
                 </h1>
             </div>
             <?php
-                $fields = array('Name', 'Email', 'Occupation', 'Age');
+                $fields = array('First', 'Last', 'Email', 'Occupation');
                 function tableRow($data, $isHeader) {
                     if ($isHeader == true) {
                         $headline = '<th>';
@@ -30,9 +30,9 @@
                     }
                     echo "\t\t</tr>\n"; 
                 }
-                $dbconn = pg_connect("host=localhost dbname=users user=postgres password=postgres")
+                $dbconn = pg_connect("host=localhost dbname=users user=users password=users")
                             or die('Could not connect: ' . pg_last_error());
-                $query = 'SELECT * FROM users';
+                $query = 'SELECT * FROM user_info';
                 $result = pg_query($query) or die('Query failed: ' . pg_last_error());
 
                 // Printing results in HTML
