@@ -13,9 +13,11 @@
                     Paige O'Daniel
                     <img src="images/right.gif" alt="" />
                 </h1>
+                <h3 id="date"></h3>
+				<script type="text/javascript" src="../scripts/script1.js"></script>
             </div>
             <?php
-                $fields = array('First', 'Last', 'Email', 'Occupation');
+                $fields = array('First', 'Last', 'user ID', 'Email', 'Occupation');
                 function tableRow($data, $isHeader) {
                     if ($isHeader == true) {
                         $headline = '<th>';
@@ -28,17 +30,22 @@
                     foreach ($data as $col_value) {
                         echo "\t\t\t$headline$col_value$headlineStop\n";
                     }
-                    echo "\t\t</tr>\n"; 
+                    echo "\t\t</tr>\n";
                 }
-                $dbconn = pg_connect("host=localhost dbname=users user=users password=users")
-                            or die('Could not connect: ' . pg_last_error());
-                $query = 'SELECT * FROM user_info';
-                $result = pg_query($query) or die('Query failed: ' . pg_last_error());
+            
+                $dbhost = 'localhost';
+                $dbuser = 'root';
+                $dbpass = '';
+                $db = mysqli_connect($dbhost, $dbuser, $dbpass, 'users')
+                    or die("Error conecting to MySQL server");
+            
+                $query = 'SELECT * FROM basics;';
+                $result = mysqli_query($db, $query) or die('Query failed!');
 
                 // Printing results in HTML
                 echo "\t<table>\n";
                 tableRow($fields, true);
-                while ($line = pg_fetch_array($result, null, PGSQL_ASSOC)) {
+                while ($line = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
                     tableRow($line, false);
                 }
                 echo "\t</table>\n";
