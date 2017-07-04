@@ -7,11 +7,14 @@ class calc {
         this.operator = '';
     }
     
+    writeToPage(value) {
+        document.getElementById(this.displayId).innerHTML = value;
+    }
+    
     enterNum(entry) {
-        //var inputNum = Number(entry);
         var last = this.inputs.length - 1;
         this.inputs[last] += String(entry);
-        document.getElementById(this.displayId).innerHTML = this.inputs[last];
+        this.writeToPage(this.inputs[last]);
     }
     
     add() {
@@ -47,24 +50,27 @@ class calc {
             if (this.inputs[i] === '+') {
                 console.log("Plus sign detected!");
                 total += Number(this.inputs[i + 1]);
-            } else if (this.inputs[i] === '-') {
-                console.log("Minus sign detected!")
+            } 
+            else if (this.inputs[i] === '-') {
+                console.log("Minus sign detected!");
                 total -= Number(this.inputs[i + 1]);
-            } else if (this.inputs[i] === '*') {
-                console.log("Multiplication sign detected!")
+            } 
+            else if (this.inputs[i] === '*') {
+                console.log("Multiplication sign detected!");
                 total *= Number(this.inputs[i + 1]);
-            } else if (this.inputs[i] === '/') {
-                console.log("Division sign detected!")
+            } 
+            else if (this.inputs[i] === '/') {
+                console.log("Division sign detected!");
                 total /= Number(this.inputs[i + 1]);
             }
         }
-        document.getElementById(this.displayId).innerHTML = String(total);
+        this.writeToPage(String(total));
         this.inputs = [String(total)];
     }
     
     clearScreen() {
         this.inputs = [''];
-        document.getElementById(this.displayId).innerHTML = "";
+        this.writeToPage("");
     }
 }
 
