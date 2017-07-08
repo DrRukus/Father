@@ -17,7 +17,7 @@
 				<script type="text/javascript" src="../scripts/script1.js"></script>
             </div>
             <?php 
-            $fields = array('Name', 'Email', 'user ID', 'Occupation', 'Age');
+            $fields = array('First', 'Last', 'user ID', 'Email', 'Occupation');
             function tableRow($data, $isHeader) {
                 if ($isHeader == true) {
                     $headline = '<th>';

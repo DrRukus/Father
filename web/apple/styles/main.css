@@ -1,0 +1,33 @@
+body {
+    font-family: "Times New Roman", Helvetica, sans-serif;
+    background-image: url("../images/6637391-vegetable-wallpaper.jpg")
+}
+
+#menu {
+    background-color: white;
+    margin: 0 auto;
+    height: 95vh;
+    width: 1000px;
+    border-radius: 20px;
+}
+
+#header {
+    font-family: "Times New Roman", Helvetica, sans-serif;;
+    text-align: center;
+    color: blue;
+    font-size: 140%;
+    border-bottom: 2px solid black;
+}
+
+#header img {
+    width: 5em;
+    padding-bottom: 10px;
+}
+
+table, th, td {
+   border: 1px solid black;
+}
+
+#items {
+    
+}
