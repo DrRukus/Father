@@ -7,9 +7,19 @@ body {
     border: 1px solid black;
     background-color: white;
     margin: 0 auto;
-    height: 95vh;
+    height: calc(100%);
     width: 1000px;
     border-radius: 20px;
+    /*left: 50%;
+    right: 50%;*/
+}
+
+#leftCol {
+    float: left;
+    margin-left: 10px;
+    margin-right: 0px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 #header {
@@ -29,6 +39,11 @@ body {
 #center {
     margin: 10px auto;
     width: 500px;
+    text-align: center;
+}
+
+#type {
+    text-decoration: underline;
 }
 
 ul {
@@ -43,8 +58,12 @@ table, th, td {
     text-align: center;
 }
 
+th {
+    color: darkgreen;
+}
+
 td {
-    width: 80px;
+    width: 200px;
 }
 
 a:link {

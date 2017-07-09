@@ -1,5 +1,8 @@
 a {
     width: 1000px;
-	margin-left: 40em;
-	margin-right: 5em;
+    margin: 10px auto;
+}
+
+#mainLink {
+    margin: 20px auto;
 }

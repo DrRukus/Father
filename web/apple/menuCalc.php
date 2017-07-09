@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-
+<?php
+    include "scripts/menu.php";
+?>
 <html>
     <head>
         <title>Menu</title>
@@ -21,9 +23,7 @@
             <div id="center">
                 <div id="mainLink"><a id="main" href="menuOptions.html">Back</a></div>
                 <form action="searchItem.php" method="post">
-                    No: <br><input type="text" name="num"><br>
-                    Name: <br><input type="text" name="name"><br>
-                    Type: <br><input type="text" name="type"><br>
+                    Table No: <br><input type="text" name="num"><br>
                     <input type="submit" value="Submit">
                 </form>
             </div>

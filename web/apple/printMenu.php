@@ -19,10 +19,14 @@
                 <h3 id="date"></h3>
                 <script type="text/javascript" src="scripts/date.js"></script>
             </div>
+            <div id="leftCol">
+                <img src="images/rice_dish.jpg" alt="" width="200px" />
+            </div>
+            
             <div id="center">
+                <div id="mainLink"><a id="main" href="menuOptions.html">Main page</a></div>
                 <?php printMenu(); ?>
             </div>
-            <a id="main" href="main.html">Main page</a>
         </div>
     </body>
 </html>

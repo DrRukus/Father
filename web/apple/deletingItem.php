@@ -20,9 +20,9 @@
                 <script type="text/javascript" src="scripts/date.js"></script>
             </div>
             <div id="center">
+                <div id="mainLink"><a id="main" href="menuOptions.html">Back</a></div>
                 <?php deleteItem($_POST["name"]); ?>
             </div>
-        <a id="main" href="menuOptions.html">Back</a>
         </div>
     </body>
 </html>

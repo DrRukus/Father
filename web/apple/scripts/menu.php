@@ -25,36 +25,53 @@
         echo "\t\t</tr>\n";
     }
 
-    function printMenu() {
+    function getTypes() {
         $db = connectToMenu();
-        $fields = array('No', 'Name', 'Type', 'Price');
-        $query = 'SELECT * FROM menu;';
-        $result = mysqli_query($db, $query) or die('Query failed!');
-
-        // Printing results in HTML
-        echo "\t<table id=\"items\">\n";
-        printRecord($fields, true);
-        while ($line = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            printRecord($line, false);
+        $query = "SELECT DISTINCT(type) AS type FROM menu;";
+        $result = mysqli_query($db, $query) or die('DISTINCT(type) query failed!');
+        $types = array();
+        while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            array_push($types, $row[type]);
         }
-        echo "\t</table>\n";
+        return $types;
     }
 
-    function getNum() {
+    function printMenu() {
         $db = connectToMenu();
-        $query = "SELECT num FROM menu;";
+        $fields = array('No', 'Name', 'Price');
+        $types = getTypes();
+        foreach ($types as $type) {
+            $query = "SELECT num, name, price FROM menu WHERE type=\"$type\";";
+            //echo $query;
+            $result = mysqli_query($db, $query) or die('Query failed!');
+
+            // Printing results in HTML
+            echo "\t<h2 id=\"type\">$type</h2><br>\n";
+            echo "\t<table id=\"items\">\n";
+            printRecord($fields, true);
+            while ($line = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                printRecord($line, false);
+            }
+            echo "\t</table>\n<br><br>";
+        }
+    }
+
+    function getNum($db, $type) {
+        $query = "SELECT num FROM menu WHERE type=\"$type\";";
         $result = mysqli_query($db, $query) or die('\"Largest ID\" query failed!');
         $numsRaw = array();
         while($value = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            array_push($numsRaw, $value[num]);
+            $itemNum = explode(".", $value[num])[1];
+            array_push($numsRaw, (int)$itemNum);
         }
-        $new_num = max($numsRaw) + 1;
+        $new_int = max($numsRaw) + 1;
+        $new_num = substr($type, 0, 1) . "." . (string)$new_int;
         return $new_num;
     }
 
     function addItem($itemData) {
         $db = connectToMenu();
-        $num = getNum($db);
+        $num = getNum($db, $itemData["type"]);
         $name = $itemData["name"];
         $type = $itemData["type"];
         $price = $itemData["price"];
@@ -72,10 +89,7 @@
     function searchItem($field, $value) {
         $db = connectToMenu();
         $fields = array('No', 'Name', 'Type', 'Price');
-        if ($field == "name" || $field == "type") {
-            $value = "\"$value\"";
-        }
-        $query = "SELECT * FROM menu WHERE $field=$value;";
+        $query = "SELECT * FROM menu WHERE $field=\"$value\";";
         //echo $query;
         $result = mysqli_query($db, $query) or die("Search query failed!");
         

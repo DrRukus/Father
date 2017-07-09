@@ -19,6 +19,7 @@
                 <script type="text/javascript" src="scripts/date.js"></script>
             </div>
             <div id="center">
+                <div id="mainLink"><a id="main" href="menuOptions.html">Back</a></div>
                 <?php
                     if ($_POST["num"]) {
                         searchItem("num", $_POST["num"]);

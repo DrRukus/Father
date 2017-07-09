@@ -20,7 +20,7 @@
                 <script type="text/javascript" src="scripts/date.js"></script>
             </div>
             <div id="center">
-                
+                <div id="mainLink"><a id="main" href="menuOptions.html">Back</a></div>
                 <?php
                     $itemData = array(
                         "name" => $_POST["name"],
@@ -30,7 +30,6 @@
                     addItem($itemData);
                 ?>
             </div>
-            <a id="main" href="menuOptions.html">Back</a>
         </div>
     </body>
 </html>
