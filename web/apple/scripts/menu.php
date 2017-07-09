@@ -102,4 +102,66 @@
         }
         echo "\t</table>\n";
     }
+
+    class Order {
+        public $db;
+        public $tableNum;
+        public $bill;
+        public $selections;
+        public $tax = 1.08;
+        
+        function __construct($tableNum, $selections) {
+            $this->table = $tableNum;
+            $this->bill = 0;
+            $this->db = connectToMenu();
+            $this->createOrderTable();
+            $this->selections = explode(",", $selections);
+        }
+        
+        function createOrderTable() {
+            $tableName = "table" . (string)$this->table;
+            $query = "CREATE TABLE $tableName (num VARCHAR (5), price FLOAT(5,2));";
+            //echo $query;
+            mysqli_query($this->db, $query) or die("Search query failed!");
+        }
+        
+        public function addToBill($price) {
+            $this->bill += $price;
+        }
+        
+        public function getPrice($itemNum) {
+            $db = connectToMenu();
+            $query = "SELECT price FROM menu WHERE num=\"$itemNum\";";
+            //echo $query;
+            $result = mysqli_query($db, $query) or die("Search query failed!");
+            $price = array();
+            while($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+                //print_r($row);
+                array_push($price, $row[price]);
+            }
+            return round($price[0] * $this->tax, 2);
+        }
+        
+        public function calculateBill() {
+            echo "\t<h1>Order for table #$this->table</h1><br>\n";
+            foreach ($this->selections as $select) {
+                echo "\t<h2>Item No: $select</h2><br>\n";
+                $price = $this->getPrice($select);
+                echo "\t<h2>Price: $$price</h2><br><br>\n";
+                $this->addToBill($this->getPrice($select));
+            }
+            echo "\t<h2>Total: </h2><br>\n";
+            echo "\t<h2>$$this->bill</h2><br>\n";
+        }
+        
+        public function updateTable() {
+            foreach($this->selections as $select) {
+                $price = $this->getPrice($select);
+                $query = "INSERT INTO table$this->table (num, price) " .
+                    "VALUES (\"$select\", $price);";
+                //echo $query;
+                $result = mysqli_query($this->db, $query) or die("INSERT query failed!");
+            }
+        }
+    }
 ?>

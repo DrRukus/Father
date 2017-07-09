@@ -5,6 +5,7 @@
     <head>
         <title>Menu</title>
         <link rel="stylesheet", type="text/css" href="styles/main.css" />
+        <link rel="stylesheet", type="text/css" href="styles/mainLink.css" />
         <link rel="shortcut icon" href="images/favicon.ico" type="favicon/ico" />
     </head>
     <body>
@@ -19,15 +20,11 @@
                 <script type="text/javascript" src="scripts/date.js"></script>
             </div>
             <div id="center">
-                <div id="mainLink"><a id="main" href="menuOptions.html">Back</a></div>
+                <div id="mainLink"><a id="main" href="menuCalc.html">Back</a></div>
                 <?php
-                    if ($_POST["num"]) {
-                        searchItem("num", $_POST["num"]);
-                    } else if ($_POST["name"]) {
-                        searchItem("name", $_POST["name"]);
-                    } else if ($_POST["type"]) {
-                        searchItem("type", $_POST["type"]);
-                    }
+                    $order = new Order($_POST["num"], $_POST["orders"]);
+                    $order->calculateBill();
+                    $order->updateTable();
                 ?>
             </div>
         </div>
