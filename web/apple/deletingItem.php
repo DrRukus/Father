@@ -5,6 +5,7 @@
     <head>
         <title>Menu</title>
         <link rel="stylesheet", type="text/css" href="styles/main.css" />
+        <link rel="stylesheet", type="text/css" href="styles/mainLink.css" />
         <link rel="shortcut icon" href="images/favicon.ico" type="favicon/ico" />
     </head>
     <body>
@@ -19,11 +20,7 @@
                 <script type="text/javascript" src="scripts/date.js"></script>
             </div>
             <div id="center">
-                <?php
-                    $name = $_POST["name"];
-                    $db = connectToMenu();
-                    deleteItem($db, $name);
-                ?>
+                <?php deleteItem($_POST["name"]); ?>
             </div>
         <a id="main" href="menuOptions.html">Back</a>
         </div>

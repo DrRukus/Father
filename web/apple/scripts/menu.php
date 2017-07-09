@@ -20,12 +20,13 @@
         }
         echo "\t\t<tr>\n";
         foreach ($data as $col_value) {
-            echo "\t\t\t$headline$col_value$headlineStop\n";
+            echo "\t\t\t$headline<h2>$col_value</h2>$headlineStop\n";
         }
         echo "\t\t</tr>\n";
     }
 
-    function printTable($db) {
+    function printMenu() {
+        $db = connectToMenu();
         $fields = array('No', 'Name', 'Type', 'Price');
         $query = 'SELECT * FROM menu;';
         $result = mysqli_query($db, $query) or die('Query failed!');
@@ -39,7 +40,8 @@
         echo "\t</table>\n";
     }
 
-    function getNum($db) {
+    function getNum() {
+        $db = connectToMenu();
         $query = "SELECT num FROM menu;";
         $result = mysqli_query($db, $query) or die('\"Largest ID\" query failed!');
         $numsRaw = array();
@@ -50,7 +52,8 @@
         return $new_num;
     }
 
-    function addItem($db, $itemData) {
+    function addItem($itemData) {
+        $db = connectToMenu();
         $num = getNum($db);
         $name = $itemData["name"];
         $type = $itemData["type"];
@@ -60,20 +63,28 @@
         mysqli_query($db, $query) or die('\"INSERT\" query failed!');
     }
 
-    function deleteItem($db, $name) {
+    function deleteItem($name) {
+        $db = connectToMenu();
         $query = "DELETE FROM menu WHERE name=\"$name\";";
         mysqli_query($db, $query) or die('\"DELETE\" query failed!');
     }
 
-    function searchItemByNum($db, $field, $value) {
-        $query = "SELECT '$field' FROM menu;";
-        echo $query;
-        $result = mysqli_query($db, $query) or die("\"Num SELECT\" query failed!");
+    function searchItem($field, $value) {
+        $db = connectToMenu();
+        $fields = array('No', 'Name', 'Type', 'Price');
+        if ($field == "name" || $field == "type") {
+            $value = "\"$value\"";
+        }
+        $query = "SELECT * FROM menu WHERE $field=$value;";
+        //echo $query;
+        $result = mysqli_query($db, $query) or die("Search query failed!");
+        
         // Printing results in HTML
         echo "\t<table id=\"items\">\n";
         printRecord($fields, true);
+        $numsRaw = array();
         while ($line = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
-            printRecord($line[num], false);
+            printRecord($line, false);
         }
         echo "\t</table>\n";
     }

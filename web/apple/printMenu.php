@@ -5,6 +5,7 @@
     <head>
         <title>Menu</title>
         <link rel="stylesheet", type="text/css" href="styles/main.css" />
+        <link rel="stylesheet", type="text/css" href="styles/mainLink.css" />
         <link rel="shortcut icon" href="images/favicon.ico" type="favicon/ico" />
     </head>
     <body>
@@ -19,12 +20,9 @@
                 <script type="text/javascript" src="scripts/date.js"></script>
             </div>
             <div id="center">
-                <?php
-                    $db = connectToMenu();
-                    printTable($db);
-                ?>
+                <?php printMenu(); ?>
             </div>
-        <a id="main" href="main.html">Main page</a>
+            <a id="main" href="main.html">Main page</a>
         </div>
     </body>
 </html>

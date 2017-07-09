@@ -20,12 +20,13 @@
             </div>
             <div id="center">
                 <?php
-                    $itemData = array(
-                        "num" => $_POST["num"],
-                        "name" => $_POST["name"]
-                        );
-                    $db = connectToMenu();
-                    searchItemByNum($db, "num", $itemData["num"]);
+                    if ($_POST["num"]) {
+                        searchItem("num", $_POST["num"]);
+                    } else if ($_POST["name"]) {
+                        searchItem("name", $_POST["name"]);
+                    } else if ($_POST["type"]) {
+                        searchItem("type", $_POST["type"]);
+                    }
                 ?>
             </div>
             <a id="main" href="menuOptions.html">Back</a>

@@ -5,6 +5,7 @@
     <head>
         <title>Menu</title>
         <link rel="stylesheet", type="text/css" href="styles/main.css" />
+        <link rel="stylesheet", type="text/css" href="styles/mainLink.css" />
         <link rel="shortcut icon" href="images/favicon.ico" type="favicon/ico" />
     </head>
     <body>
@@ -19,17 +20,17 @@
                 <script type="text/javascript" src="scripts/date.js"></script>
             </div>
             <div id="center">
+                
                 <?php
                     $itemData = array(
                         "name" => $_POST["name"],
                         "type" => $_POST["type"],
                         "price" => $_POST["price"]
                         );
-                    $db = connectToMenu();
-                    addItem($db, $itemData);
+                    addItem($itemData);
                 ?>
             </div>
-        <a id="main" href="menuOptions.html">Back</a>
+            <a id="main" href="menuOptions.html">Back</a>
         </div>
     </body>
 </html>
