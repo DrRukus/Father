@@ -16,15 +16,14 @@
                 <script type="text/javascript" src="scripts/date.js"></script>
             </div>
             <div id="center">
-                <ul id="mainLinks">
-                    <li>
-                        <a id="menuPrint" href="printMenu.php">Menu</a><br>
-                    </li>
-                    <li>
-                        <a id="menuAdmin" href="menuOptions.html">Menu administration</a>
-                    </li>
-                </ul>
+                <form action="addingItem.php" method="post">
+                    Name: <br><input type="text" name="name"><br>
+                    Type: <br><input type="text" name="type"><br>
+                    Price: <br><input type="text" name="price"><br>
+                    <input type="submit" value="Submit">
+                </form>
             </div>
+        <a id="main" href="menuOptions.html">Back</a>
         </div>
     </body>
 </html>

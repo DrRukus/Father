@@ -1,3 +1,6 @@
+<?php
+    include "scripts/menu.php";
+?>
 <html>
     <head>
         <title>Menu</title>
@@ -16,15 +19,17 @@
                 <script type="text/javascript" src="scripts/date.js"></script>
             </div>
             <div id="center">
-                <ul id="mainLinks">
-                    <li>
-                        <a id="menuPrint" href="printMenu.php">Menu</a><br>
-                    </li>
-                    <li>
-                        <a id="menuAdmin" href="menuOptions.html">Menu administration</a>
-                    </li>
-                </ul>
+                <?php
+                    $itemData = array(
+                        "name" => $_POST["name"],
+                        "type" => $_POST["type"],
+                        "price" => $_POST["price"]
+                        );
+                    $db = connectToMenu();
+                    addItem($db, $itemData);
+                ?>
             </div>
+        <a id="main" href="menuOptions.html">Back</a>
         </div>
     </body>
 </html>

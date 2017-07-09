@@ -1,3 +1,6 @@
+<?php
+    include "scripts/menu.php";
+?>
 <html>
     <head>
         <title>Menu</title>
@@ -16,15 +19,12 @@
                 <script type="text/javascript" src="scripts/date.js"></script>
             </div>
             <div id="center">
-                <ul id="mainLinks">
-                    <li>
-                        <a id="menuPrint" href="printMenu.php">Menu</a><br>
-                    </li>
-                    <li>
-                        <a id="menuAdmin" href="menuOptions.html">Menu administration</a>
-                    </li>
-                </ul>
+                <?php
+                    $db = connectToMenu();
+                    printTable($db);
+                ?>
             </div>
+        <a id="main" href="main.html">Main page</a>
         </div>
     </body>
 </html>

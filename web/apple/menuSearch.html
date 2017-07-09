@@ -1,3 +1,6 @@
+<?php
+    include "scripts/menu.php";
+?>
 <html>
     <head>
         <title>Menu</title>
@@ -16,15 +19,13 @@
                 <script type="text/javascript" src="scripts/date.js"></script>
             </div>
             <div id="center">
-                <ul id="mainLinks">
-                    <li>
-                        <a id="menuPrint" href="printMenu.php">Menu</a><br>
-                    </li>
-                    <li>
-                        <a id="menuAdmin" href="menuOptions.html">Menu administration</a>
-                    </li>
-                </ul>
+                <form action="searchItem.php" method="post">
+                    No: <br><input type="text" name="num"><br>
+                    Name: <br><input type="text" name="name"><br>
+                    <input type="submit" value="Submit">
+                </form>
             </div>
+            <a id="main" href="menuOptions.html">Back</a>
         </div>
     </body>
 </html>

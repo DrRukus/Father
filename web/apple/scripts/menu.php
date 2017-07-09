@@ -39,6 +39,42 @@
         echo "\t</table>\n";
     }
 
-    $db = connectToMenu();
-    printTable($db);
+    function getNum($db) {
+        $query = "SELECT num FROM menu;";
+        $result = mysqli_query($db, $query) or die('\"Largest ID\" query failed!');
+        $numsRaw = array();
+        while($value = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            array_push($numsRaw, $value[num]);
+        }
+        $new_num = max($numsRaw) + 1;
+        return $new_num;
+    }
+
+    function addItem($db, $itemData) {
+        $num = getNum($db);
+        $name = $itemData["name"];
+        $type = $itemData["type"];
+        $price = $itemData["price"];
+        $query = "INSERT INTO menu (num, name, type, price) " .
+            "VALUES ('$num', '$name', '$type', '$price');";
+        mysqli_query($db, $query) or die('\"INSERT\" query failed!');
+    }
+
+    function deleteItem($db, $name) {
+        $query = "DELETE FROM menu WHERE name=\"$name\";";
+        mysqli_query($db, $query) or die('\"DELETE\" query failed!');
+    }
+
+    function searchItemByNum($db, $field, $value) {
+        $query = "SELECT '$field' FROM menu;";
+        echo $query;
+        $result = mysqli_query($db, $query) or die("\"Num SELECT\" query failed!");
+        // Printing results in HTML
+        echo "\t<table id=\"items\">\n";
+        printRecord($fields, true);
+        while ($line = mysqli_fetch_array($result, MYSQLI_ASSOC)) {
+            printRecord($line[num], false);
+        }
+        echo "\t</table>\n";
+    }
 ?>

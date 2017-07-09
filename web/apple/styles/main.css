@@ -1,6 +1,6 @@
 body {
     font-family: "Times New Roman", Helvetica, sans-serif;
-    background-image: url("../images/6637391-vegetable-wallpaper.jpg")
+    background-image: url("../images/6637391-vegetable-wallpaper.jpg");
 }
 
 #menu {
@@ -12,7 +12,7 @@ body {
 }
 
 #header {
-    font-family: "Times New Roman", Helvetica, sans-serif;;
+    font-family: "Times New Roman", Helvetica, sans-serif;
     text-align: center;
     color: blue;
     font-size: 140%;
@@ -24,8 +24,19 @@ body {
     padding-bottom: 10px;
 }
 
+#center {
+    margin: 0 auto;
+    width: 500px;
+}
+
+ul {
+    margin-top: 0;
+    margin-bottom: 0;
+    line-height: 30px;
+}
+
 table, th, td {
-   border: 1px solid black;
+    border: 1px solid black;
 }
 
 #items {
