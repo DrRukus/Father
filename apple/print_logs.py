@@ -1,5 +1,15 @@
 #!/usr/bin/env python
 
+"""
+Procedure:
+    1. Check contents of "TestLogs" dir and 
+       create list of all files with .log extension.
+    2. Iterate through list of .log files.
+    3. For every file, read lines into list.
+    4. Check each line for substring "DeviceInfo".
+    5. If substring found, grab 3rd field and print
+"""
+
 import os
 
 logDir = 'TestLogs'
