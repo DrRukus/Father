@@ -23,8 +23,12 @@
                 <div id="mainLink"><a id="main" href="menuCalc.html">Back</a></div>
                 <?php
                     $order = new Order($_POST["num"], $_POST["orders"]);
-                    $order->calculateBill();
-                    $order->updateTable();
+                    if ($order->table != 0) {
+                        $order->calculateBill();
+                        $order->updateTable();
+                    } else {
+                        echo "\t\t<h2>Unable to accept reservations at this time.</h2><br>\n";
+                    }
                 ?>
             </div>
         </div>

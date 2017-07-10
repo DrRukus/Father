@@ -22,7 +22,6 @@
             <div id="leftCol">
                 <img src="images/rice_dish.jpg" alt="" width="200px" />
             </div>
-            
             <div id="center">
                 <div id="mainLink"><a id="main" href="menuOptions.html">Main page</a></div>
                 <?php printMenu(); ?>
