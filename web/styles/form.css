@@ -1,0 +1,17 @@
+input[type=text] {
+    width: 80%;
+    padding: 12px 20px;
+    display: block;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+//input[name=name] {
+//    background-color: #3CBC8D;
+//    color: white;
+//}
+
+input[type=submit] {
+    background-color: #0000FF;
+    color: white;
+}

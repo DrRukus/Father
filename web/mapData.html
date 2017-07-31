@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <title>Google Maps API</title>
+            <link rel="shortcut icon" href="images/favicon.ico" type="favicon/ico" />
+        <link rel="stylesheet" type="text/css" href="styles/main.css" />
+        <link rel="stylesheet" type="text/css" href="styles/map.css" />
+        <script type="text/javascript" src="scripts/mapApi.js"></script>
+        <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJCDq6LYQzr_rpT2AOfvOCmoZBdK5A1Kw&callback=initMap">
+        </script>
+    </head>
+    <body>
+        <div id="page">
+            <div id="header">
+                <h1>
+                    <img src="images/left.gif" alt="" />
+                     Daniel Schmidt
+                    <img src="images/right.gif" alt="" />
+                </h1>
+                <h3 id="date"></h3>
+				<script type="text/javascript" src="scripts/script1.js"></script>
+            </div>
+            <h3>My Goole Maps Demo</h3>
+            <div id="map"></div>
+            <div id="getCoords">
+                <h3>Enter Coords</h3>
+                <label for="latIn">Latitude</label>
+                <input type="text" name="latIn" id="latIn" /><br>
+                <label for="lngIn">Longitude</label>
+                <input type="text" name="lngIn" id="lngIn" />
+                <input type="button" value="submit" id="submit" onclick="initMap()" />
+            </div>
+            <a id="return" href="index.html">Return to main page</a>
+        </div>
+    </body>
+</html>
