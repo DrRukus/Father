@@ -8,8 +8,8 @@ grid = [['.', '.', '.'],
 #        ['+', 'x', '+'],
 #        ['o', '.', '.']]
 
-#grid = [['.', '.', '.'],
-#        ['x', '+', 'o'],
+# grid = [['.', '.', '.'],
+#        ['.', '+', 'o'],
 #        ['.', '+', '.']]
 
 class FashionShow:
@@ -21,10 +21,9 @@ class FashionShow:
             self.grid = grid
             self.dims = len(grid)
             self.maxInd = self.dims - 1
-            self.currentRow = 0
-            self.currentCol = 0
             self.score = 0
             self.diagNum = self.dims * 2 - 1
+            self.numberOfCells = self.dims ** 2
             self.scores = {'.': 0,
                            '+': 1,
                            'x': 1,
@@ -39,9 +38,18 @@ class FashionShow:
     def getCell(self, i, j):
         return self.grid[i][j]
 
+    def setCell(self, i, j, value):
+        self.grid[i][j] = value
+
+    def getNumberOfCells(self):
+        return self.numberOfCells
+
     def printGrid(self):
         for row in self.grid:
             print(' '.join(row))
+
+    def getGridCopy(self):
+        return self.grid[:]
 
     def getScore(self):
         score = 0
@@ -50,20 +58,27 @@ class FashionShow:
                 score += self.scores[cell]
         print(score)
         self.score = score
+        return self.score
 
-    def checkUpDown(self, array):
-        nonPlusCount = 0
-        for cell in array:
-            if cell == 'x' or cell == 'o':
-                nonPlusCount += 1
-        return False if nonPlusCount > 1 else True
+    def check(self, cells, rule='updwn'):
+        assert rule == 'updwn' or rule == 'diag'
+        count = 0
+        for cell in cells:
+            if rule == 'updwn':
+                if cell == 'x' or cell == 'o':
+                    count += 1
+            else:
+                if cell == '+' or cell == 'o':
+                   count += 1
+        return False if count > 1 else True
 
     def checkRowsAndCols(self):
         violation = False
         for i in range(self.dims):
-            if not (self.checkUpDown(self.getRow(i)) and 
-                    self.checkUpDown(self.getCol(i))):
+            if not (self.check(self.getRow(i)) and 
+                    self.check(self.getCol(i))):
                 violation = True
+                break
         return violation
 
     def getNextDiagCoord(self, ptr, direction):
@@ -80,7 +95,7 @@ class FashionShow:
                 newPtr = -1, -1
         return newPtr
 
-    def getDiagonal(self, index, direction):
+    def getDiagonal(self, ind, direction):
         """
         Diagonals are indexed as follows:
         * if direction is right, index 0 is lower left corner, 
@@ -90,31 +105,35 @@ class FashionShow:
         """
         diagArr = []
         if direction == 'right':
-            if index <= self.maxInd:
-                coord = [self.maxInd - index, 0]
+            if ind <= self.maxInd:
+                coord = [self.maxInd - ind, 0]
             else:
-                coord = [0, index - self.maxInd]
+                coord = [0, ind - self.maxInd]
             for i in range(self.diagNum):
                 diagArr.append(self.grid[coord[0]][coord[1]])
                 coord = self.getNextDiagCoord(coord, direction)
                 if coord[0] == -1 or coord[1] == -1:
                     break
         elif direction == 'left':
-            if index <= self.maxInd:
-                coord = [self.maxInd - index, self.maxInd]
+            if ind <= self.maxInd:
+                coord = [self.maxInd - ind, self.maxInd]
             else:
-                coord = [0, 2 * self.maxInd - index]
+                coord = [0, 2 * self.maxInd - ind]
             for i in range(self.diagNum):
                 diagArr.append(self.grid[coord[0]][coord[1]])
                 coord = self.getNextDiagCoord(coord, direction)
                 if coord[0] == -1 or coord[1] == -1:
                     break
-        print(diagArr)
+        return diagArr
 
     def checkDiagonals(self):
         violation = False
         for i in range(self.diagNum):
-            self.getDiagonal(i, 'left')
+            leftDiag = self.getDiagonal(i, 'left')
+            rightDiag = self.getDiagonal(i, 'right')
+            if not (self.check(leftDiag, rule='diag') and self.check(rightDiag, rule='diag')):
+                violation = True
+                break
         return violation
 
     def checkRules(self):
@@ -124,13 +143,41 @@ class FashionShow:
             print("Violation detected!")
         return violation
 
-fs = FashionShow(grid)
+    def mapIndexToCoords(self, index):
+        assert index <= self.numberOfCells - 1
+        return index // self.dims, index % self.dims
 
-fs.printGrid()
-print(fs.getRow(1))
-print(fs.getCol(1))
-fs.getScore()
+    def mapCoordsToIndex(self, coords):
+        pass
 
-print(fs.getNextDiagCoord([1, 2], 'right'))
+def main():
+    fs = FashionShow(grid)
 
-print('Rule violation? {}'.format(fs.checkRules()))
+    fs.printGrid()
+    fs.getScore()
+
+    # print(fs.getNextDiagCoord([1, 2], 'right'))
+
+    print('Rule violation? {}'.format(fs.checkRules()))
+    # print(fs.mapIndexToCoords(8))
+    for cellNum in range(fs.getNumberOfCells()):
+        i, j = fs.mapIndexToCoords(cellNum)
+        cell = fs.getCell(i, j)
+        print(cell)
+        if cell == 'o':
+            continue
+        else:
+            order = iter(['o', '+', 'x'])
+            score = fs.getScore()
+            initVal = fs.getCell(i, j)
+            while True:
+                try:
+                    fs.setCell(i, j, next(order))
+                except StopIteration:
+                    break
+                if not fs.checkRules():
+                    break
+            if fs.getScore() <= score:
+                fs.setCell(i, j, initVal)
+    print(fs.printGrid())
+main()
