@@ -13,34 +13,35 @@
 <body>
     <div id="page">
         <div id="header">
-	    <h1>
-                <img src="images/left.gif" alt="" />
-	        Daniel Schmidt
-		<img src="images/right.gif" alt="" />
-	    </h1>
-	</div>
-	<div id="explan">
-	    <h3>Enter a decimal number (1 to 65536) then select </h3>
-	</div>
+			<h1>
+	        <img src="images/left.gif" alt="" />
+		        Paige O'Daniel
+			<img src="images/right.gif" alt="" />
+		    </h1>
+			<h3 id="date"></h3>
+			<script type="text/javascript" src="scripts/script1.js"></script>
+		</div>
+		<div id="explan">
+		    <h3>Enter a decimal number (1 to 65536) then select </h3>
+		</div>
         <div id="bin">
             <label for="decNum">Decimal Number</label>
-	    <input type="text" name="decNum" id="decNum" />
-	    <input type="button" value="Convert" id="convert" onclick="convert()"/>
-	    <div id="radios">
-	        <fieldset id="sel">
-		    <legend>Select Base</legend>
-		    <input type="radio" name="select" id="binButton" value="binary" checked="checked" />
-    		    Binary<br>
-		    <input type="radio" name="select" id="hexButton" value="hexadecimal" />
-    		    Hexadecimal
-		</fieldset>
-	    </div>
+		    <input type="text" name="decNum" id="decNum" />
+		    <input type="button" value="Convert" id="convert" onclick="convert()"/>
+		    <div id="radios">
+		        <fieldset id="sel">
+					<legend>Select Base</legend>
+					<input type="radio" name="select" id="binButton" value="binary" checked="checked" />
+					    Binary<br></br>
+					<input type="radio" name="select" id="hexButton" value="hexadecimal" />
+					    Hexadecimal
+				</fieldset>
+		    </div>
 	    <div id="bin">
 	        <h4 id="binLabel">Result </h4>
-                <div id="binNum"></div>
-	    </div>
+	        <div id="binNum"></div>
         </div>
-	<a id="return" href="index.html">Return to main page</a>
+		<a id="return" href="index.html">Return to main page</a>
     </div>
 </body>
 </html>

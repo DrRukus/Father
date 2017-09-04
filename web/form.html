@@ -10,19 +10,24 @@
             <div id="header">
                 <h1>
                     <img src="images/left.gif" alt="" />
-                    Daniel Schmidt
+                    Paige O'Daniel
                     <img src="images/right.gif" alt="" />
                 </h1>
+                <h3 id="date"></h3>
+				<script type="text/javascript" src="scripts/script1.js"></script>
             </div>
             <div>
                 <h2>Give me your info!</h2>
             </div>
             <div id="users">
-                <form action="welcome.php" method="post">
-                    Name: <br><input type="text" name="name"><br>
+                <form action="PhpScripts/showDB.php" method="post">
+                    <input type="submit" value="Show users">
+                </form>
+                <form action="PhpScripts/mysql.php" method="post">
+                    First: <br><input type="text" name="first"><br>
+                    Last: <br><input type="text" name="last"><br>
                     E-mail: <br><input type="text" name="email"><br>
                     Occupation: <br><input type="text" name="occupation"><br>
-                    Age: <br><input type="text" name="age"><br>
                     <input type="submit" value="Submit">
                 </form>
             </div>

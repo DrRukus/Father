@@ -1,0 +1,6 @@
+PostgreSQL issues:
+make sure pgsql php module installed:
+sudo apt -y install php7.0-pgsql
+
+Set pword for user in psql:
+ALTER USER users PASSWORD 'users';
