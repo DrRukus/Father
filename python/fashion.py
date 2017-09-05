@@ -77,6 +77,7 @@ class FashionShow:
         for i in range(self.dims):
             if not (self.check(self.getRow(i)) and 
                     self.check(self.getCol(i))):
+                print("\nUp/Down rule broken!")
                 violation = True
                 break
         return violation
@@ -131,7 +132,9 @@ class FashionShow:
         for i in range(self.diagNum):
             leftDiag = self.getDiagonal(i, 'left')
             rightDiag = self.getDiagonal(i, 'right')
-            if not (self.check(leftDiag, rule='diag') and self.check(rightDiag, rule='diag')):
+            if not (self.check(leftDiag, rule='diag') and
+                    self.check(rightDiag, rule='diag')):
+                print("Diagonal rule broken!")
                 violation = True
                 break
         return violation
@@ -140,7 +143,7 @@ class FashionShow:
         violation = False
         if self.checkRowsAndCols() or self.checkDiagonals():
             violation = True
-            print("Violation detected!")
+            print("Violation detected!\n")
         return violation
 
     def mapIndexToCoords(self, index):
@@ -158,8 +161,8 @@ def main():
 
     # print(fs.getNextDiagCoord([1, 2], 'right'))
 
-    print('Rule violation? {}'.format(fs.checkRules()))
-    # print(fs.mapIndexToCoords(8))
+    print('Rule violation? {}\n\n'.format(fs.checkRules()))
+    print(fs.mapIndexToCoords(8))
     for cellNum in range(fs.getNumberOfCells()):
         i, j = fs.mapIndexToCoords(cellNum)
         cell = fs.getCell(i, j)
@@ -174,10 +177,12 @@ def main():
                 try:
                     fs.setCell(i, j, next(order))
                 except StopIteration:
+                    fs.setCell(i, j, initVal)
                     break
                 if not fs.checkRules():
                     break
             if fs.getScore() <= score:
                 fs.setCell(i, j, initVal)
-    print(fs.printGrid())
+    fs.printGrid()
+
 main()
