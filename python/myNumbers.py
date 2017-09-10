@@ -10,4 +10,4 @@ result = 1
 for i in range(0, n):
     result *= innerSum
 
-print "%03d" % (int(result) % 1000)
+print("%03d" % (int(result) % 1000))
