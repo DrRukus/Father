@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="/home/dschmidt/Father/database/sqlite3/my_db.db"/><window><current_tab id="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="888"/><expanded_item id="0" parent="-1"/><expanded_item id="1" parent="-1"/><expanded_item id="2" parent="-1"/><expanded_item id="3" parent="-1"/></tab_structure><tab_browse><current_table name="groceries"/><column_widths data="AAAAAQAAABIAZwByAG8AYwBlAHIAaQBlAHMAAAABAAAAAAAAAAA="/><sort column="0" order="0"/></tab_browse><tab_sql><sql name="SQL 1">/*DROP TABLE exercise_logs;*/
+
+/*CREATE TABLE exercise_logs
+	(id INTEGER PRIMARY KEY AUTOINCREMENT,
+	type TEXT,
+	minutes INTEGER,
+	calories INTEGER,
+	heart_rate INTEGER
+);
+
+INSERT INTO exercise_logs (type, minutes, calories, heart_rate) VALUES (&quot;biking&quot;, 30, 100, 110);
+INSERT INTO exercise_logs (type, minutes, calories, heart_rate) VALUES (&quot;biking&quot;, 10, 30, 105);
+INSERT INTO exercise_logs (type, minutes, calories, heart_rate) VALUES (&quot;dancing&quot;, 15, 200, 120);
+INSERT INTO exercise_logs (type, minutes, calories, heart_rate) VALUES (&quot;tree climbing&quot;, 30, 70, 90);
+INSERT INTO exercise_logs (type, minutes, calories, heart_rate) VALUES (&quot;tree climbing&quot;, 25, 72, 80);
+INSERT INTO exercise_logs (type, minutes, calories, heart_rate) VALUES (&quot;rowing&quot;, 30, 70, 90);
+INSERT INTO exercise_logs (type, minutes, calories, heart_rate) VALUES (&quot;hiking&quot;, 60, 80, 85);
+SELECT * FROM exercise_logs;
+
+SELECT * FROM exercise_logs WHERE calories &gt; 50 ORDER BY calories;
+SELECT * FROM exercise_logs WHERE calories &gt; 50 AND minutes &lt; 30;
+SELECT * FROM exercise_logs WHERE calories &gt; 50 OR heart_rate &gt; 100;
+SELECT * FROM exercise_logs;
+SELECT * FROM exercise_logs WHERE type=&quot;biking&quot; OR type=&quot;hiking&quot; OR type=&quot;tree climbing&quot; OR type=&quot;rowing&quot;;
+
+SELECT * FROM exercise_logs WHERE type IN (&quot;biking&quot;, &quot;hiking&quot;, &quot;tree climbing&quot;, &quot;rowing&quot;);*/
+
+
+
+</sql><current_tab id="0"/></tab_sql></sqlb_project>
