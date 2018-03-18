@@ -13,18 +13,17 @@
 body {
     font-family: Helvetica Neue, Arial;
     font-size: 18px;
+    color: #575656;
 }
 
 h1, h2 {
-    color: #00960b;
-    
+    color: #000580;
 }
 
 h1 {
     font-size: 40px;
     margin-bottom: 20px;
 }
-
 
 h2 {
     font-size: 25px;
@@ -39,7 +38,7 @@ h2 {
 .author-text {
     font-size: 22px;
     float: left;
-    margin-top: 30px;
+    margin-top: 55px;
     margin-left: 10px;
 }
 
@@ -55,14 +54,19 @@ h2 {
     position: relative;
 }
 
+.blog-post img {
+    height: 150px;
+    width: auto;
+}
+
 .other-posts {
     width: 25%;
     float: left;
 }
 
 .author-box {
+    border-top: 1px solid #535353;
     padding-top: 20px;
-    border-top: 1px solid #808080;
 }
 
 .other {
@@ -70,15 +74,10 @@ h2 {
 }
 
 .author-box img {
-    height: 100px;
+    height: 148px;
     width: 100px;
     border-radius: 50%;
     float: left;
-}
-
-.blog-post img {
-    height: 150px;
-    width: auto;
 }
 
 .date {
