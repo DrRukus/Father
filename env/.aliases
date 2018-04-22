@@ -1,0 +1,11 @@
+#!/bin/bash
+
+alias ll="ls -l"
+alias la="ls -al"
+alias chkCA="/usr/bin/defaults read /AppleInternal/Library/Frameworks/CoreAutomation.framework/Resources/version.plist"
+alias prntlbl="~/nand/add-sn-H6P-print.pl"
+alias ntb="jupyter notebook"
+alias msql="mysql -u root -p"
+alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
+alias aup="curl -s localhost:8081/tests/rebuild > /dev/null"
+alias web="cd /Library/WebServer/Documents"
