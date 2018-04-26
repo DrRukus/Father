@@ -10,6 +10,10 @@ def connectToDb(db):
 	cnx = sqlite3.connect(db)
 	return cnx, cnx.cursor()
 
+def closeDb(cnx):
+	cnx.commit()
+	cnx.close()
+
 class Item(Resource):
 	parser = reqparse.RequestParser()
 	parser.add_argument('price', 
@@ -33,27 +37,40 @@ class Item(Resource):
 		query = 'SELECT * FROM items WHERE name=?'
 		result = cursor.execute(query, (name,))
 		row = result.fetchone()
-		connection.close()
+
+		closeDb(connection)
 
 		if row:
 			return {'item': {'name': row[0], 'price': row[1]}}
+
+	@classmethod
+	def insert(cls, item):
+		connection, cursor = connectToDb(DATA_DB)
+
+		query = 'INSERT INTO items VALUES (?, ?)'
+		cursor.execute(query, (item['name'], item['price']))
+
+		closeDb(connection)
+
+	@classmethod
+	def update(cls, item):
+		connection, cursor = connectToDb(DATA_DB)
+
+		query = 'UPDATE items SET price=? WHERE name=?'
+		cursor.execute(query, (item['price'], item['name']))
+
+		closeDb(connection)
 
 	def post(self, name):
 		if Item.find_by_name(name):
 			return {'message': 'An item with name "{}" already exists.'.format(name)}, 400
 
-		data = Item.parser.parse_args()
+		item = {'name': name, 'price': Item.parser.parse_args()['price']}
 
-		item = {'name': name, 'price': data['price']}
-
-		connection, cursor = connectToDb(DATA_DB)
-
-		query = 'INSERT INTO items VALUES (?, ?)'
-
-		cursor.execute(query, (item['name'], item['price']))
-
-		connection.commit()
-		connection.close()
+		try:
+			Item.insert(item)
+		except:
+			return {'message': 'An error occurred inserting the item.'}, 500 # Internal server error
 
 		return item, 201
 
@@ -62,25 +79,32 @@ class Item(Resource):
 
 		query = 'DELETE FROM items WHERE name=?'
 		result = cursor.execute(query, (name,))
-		print('Result: {}'.format(dir(result)))
 
-		query = 'SELECT * FROM items WHERE name=?'
-		result = cursor.execute(query, (name,))
+		closeDb(connection)
 
-		if result.fetchone():
+		itemCheck = Item.find_by_name(name)
+
+		if itemCheck:
 			return {'message': 'Deletion failed!!!!!'}
 		return {'message': 'Item deleted'}
 
 	def put(self, name):
 		data = Item.parser.parse_args()
+		
+		item = Item.find_by_name(name)
+		updated_item = {'name': name, 'price': data['price']}
 
-		item = next(filter(lambda x: x['name'] == name, items), None)
 		if item is None:
-			item = {'name': name, 'price': data['price']}
-			items.append(item)
+			try:
+				Item.insert(updated_item)
+			except:
+				return {'message': 'An error occurred inserting the item'}, 500
 		else:
-			item.update(data)
-		return item
+			try:
+				Item.update(updated_item)
+			except:
+				return {'message': 'An error occurred updating the item'}, 500
+		return updated_item
 
 
 class ItemList(Resource):
@@ -92,7 +116,6 @@ class ItemList(Resource):
 
 		items = result.fetchall()
 
-		connection.commit()
-		connection.close()
+		closeDb(connection)
 
 		return {'items': items}
