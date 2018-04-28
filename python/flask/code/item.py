@@ -10,8 +10,9 @@ def connectToDb(db):
 	cnx = sqlite3.connect(db)
 	return cnx, cnx.cursor()
 
-def closeDb(cnx):
-	cnx.commit()
+def closeDb(cnx, commit=False):
+	if commit:
+		cnx.commit()
 	cnx.close()
 
 class Item(Resource):
@@ -50,7 +51,7 @@ class Item(Resource):
 		query = 'INSERT INTO items VALUES (?, ?)'
 		cursor.execute(query, (item['name'], item['price']))
 
-		closeDb(connection)
+		closeDb(connection, commit=True)
 
 	@classmethod
 	def update(cls, item):
@@ -59,11 +60,11 @@ class Item(Resource):
 		query = 'UPDATE items SET price=? WHERE name=?'
 		cursor.execute(query, (item['price'], item['name']))
 
-		closeDb(connection)
+		closeDb(connection, commit=True)
 
 	def post(self, name):
 		if Item.find_by_name(name):
-			return {'message': 'An item with name "{}" already exists.'.format(name)}, 400
+			return {'message': 'An item with name \"{}\" already exists.'.format(name)}, 400
 
 		item = {'name': name, 'price': Item.parser.parse_args()['price']}
 
@@ -80,7 +81,7 @@ class Item(Resource):
 		query = 'DELETE FROM items WHERE name=?'
 		result = cursor.execute(query, (name,))
 
-		closeDb(connection)
+		closeDb(connection, commit=True)
 
 		itemCheck = Item.find_by_name(name)
 
