@@ -78,17 +78,15 @@ li {
     width: 200px;
 }
 
-#fadeToBlack {
-    text-decoration: underline;
-}
-
 #leftCol {
     font-size: 90%;
     float: left;
     width: 235px;
+    height: 700px;
     margin: 30px 20px 20px 30px;
     padding: 5px;
     border: 2px solid black;
+    border-radius: 10px;
     background-color: cornsilk;
 }
 

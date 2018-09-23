@@ -1,0 +1,46 @@
+#calc {
+    text-decoration: underline;
+}
+
+#calcBody {
+    margin: 20px auto 10px;
+    height: 590px;
+    width: 220px;
+    background-color: gray;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+#calcDisplay {
+    line-height: 30px;
+    margin: 10px auto;
+    text-align: center;
+    border: 1px solid black;
+    border-radius: 10px;
+    background-color: azure;
+    height: 5%;
+    width: 90%;
+}
+
+#buttons {
+    margin: 40px auto 5px;
+    height: 500px;
+    width: 200px;
+    background-color: lightgray;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+.buttonForm {
+    margin: 3px;
+}
+
+.keyRow {
+    margin: 5px auto 5px;
+    text-align: center;
+}
+
+.zeroRow {
+    margin: 5px auto 5px;
+    text-align: center;
+}

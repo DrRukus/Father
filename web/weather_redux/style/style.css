@@ -1,0 +1,53 @@
+/* Whole page */
+/** {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background-color: #fff;
+    color: #505050;
+    font-family: 'Roboto', 'Arial', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+    text-rendering: optimizeLegibility;
+}*/
+
+td, th {
+    vertical-align: middle !important;
+    text-align: center !important;
+}
+
+.input-group {
+    margin: 20px 0px;
+}
+
+svg {
+    height: 150px;
+}
+
+/*.input-group-button {
+    float: right;
+}
+
+.form-control {
+    float: left;
+}
+
+.city-column {
+    width: 25%;
+}
+
+.column {
+    width: 25%;
+}
+
+.table {
+    table-layout: fixed;
+}*/
+
+td:first-of-type, td:first-of-type > div {
+    height: 200px;
+    width: 250px;
+}
