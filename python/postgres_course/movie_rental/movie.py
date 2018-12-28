@@ -4,6 +4,7 @@ import sys
 
 class Movie:
     def __init__(self, name, genre, watched):
+        assert type(watched) == bool
         self.name = name
         self.genre = genre
         self.watched = watched
