@@ -14,6 +14,7 @@ J = 0;
 %               You should set J to the cost.
 
 for i = 1:m,
+  disp((theta' * X(i,:)' - y(i)))
   J += (theta' * X(i,:)' - y(i))^2;
 end;
 

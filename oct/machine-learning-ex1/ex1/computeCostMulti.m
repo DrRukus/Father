@@ -14,13 +14,11 @@ J = 0;
 %               You should set J to the cost.
 
 for i = 1:m,
-  disp((theta' * X(i,:)' - y(i)))
+  % disp(theta')
   J += (theta' * X(i,:)' - y(i))^2;
 end;
 
 J /= (2*m);
-
-
 
 % =========================================================================
 
