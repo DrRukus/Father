@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import psycopg2
+from database import CursorFromConnectionFromPool
 
 class User(object):
 
@@ -16,14 +16,19 @@ class User(object):
         return "<User {}>".format(self.email)
 
     def save_to_db(self):
-        with psycopg2.connect(database='learning',
-                              user='postgres',
-                              password='postgres',
-                              host='localhost',
-                              port=5433) as connection:
+        with CursorFromConnectionFromPool() as cursor:
+            cursor.execute(self.insert.format(self.columns),
+                           (self.email,
+                            self.first_name,
+                            self.last_name))
 
-            with connection.cursor() as cursor:
-                cursor.execute(self.insert.format(self.columns),
-                               (self.email,
-                                self.first_name,
-                                self.last_name))
+    @classmethod
+    def load_from_db_by_email(cls, email):
+        with CursorFromConnectionFromPool() as cursor:
+            cursor.execute('SELECT * FROM users WHERE email = %s',
+                           (email,))
+            user_data = cursor.fetchone()
+            return cls(email=user_data[1],
+                       first_name=user_data[2],
+                       last_name=user_data[3],
+                       id=user_data[0])
